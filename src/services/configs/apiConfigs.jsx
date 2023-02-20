@@ -1,13 +1,17 @@
 import axios from "axios";
 
-const clientApi = axios.create({
+export const clientApi = axios.create({
   baseURL: "http://localhost:8000/hrm/",
   withCredentials: false,
-  headers: {
+  config: {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  },
+  /*   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    "Custom-Language": "en",
-  },
+  }, */
 });
 
 // defining a custom error handler for all APIs
@@ -27,4 +31,3 @@ const errorHandler = (error) => {
 clientApi.interceptors.response.use(undefined, (error) => {
   return errorHandler(error);
 });
-export default clientApi;

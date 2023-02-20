@@ -57,7 +57,7 @@ const Departement = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    /*  setInterval(
+    setInterval(
       () =>
         fetch("http://127.0.0.1:8000/hrm/departments/")
           .then((response) => response.json())
@@ -66,12 +66,14 @@ const Departement = () => {
             setLoading(false);
           }),
       3000
-    ); */
-    DepartmentAPI.getAll().then((departments) => {
+    ); 
+    console.log("DATA:"+ tableDept);
+    /* DepartmentAPI.getAll().then((departments) => {
       setTableDept(departments);
       setLoading(false);
     });
-  }, []);
+    console.log(tableDept);*/
+  }, []); 
 
   return (
     <Box m="20px">
@@ -120,7 +122,6 @@ const Departement = () => {
             Add new
           </Button>
         </Box>
-
         <DataGrid
           rows={tableDept}
           columns={columns}

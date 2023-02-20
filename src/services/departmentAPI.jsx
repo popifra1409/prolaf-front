@@ -18,7 +18,7 @@ export const DepartmentAPI = {
 
   getAll: async function(cancel = false) {
     const response = await clientApi.request({
-      url: "/departments/",
+      url: "departments/",
       method: "GET",
       signal: cancel
         ? cancelApiObject[this.getAll.name].handleRequestCancellation().signal
@@ -30,7 +30,7 @@ export const DepartmentAPI = {
 
   search: async function(name, cancel = false) {
     const response = await clientApi.request({
-      url: "/departments/key",
+      url: "departments/key",
       method: "GET",
       params: {
         name: name,
@@ -47,7 +47,7 @@ export const DepartmentAPI = {
     await clientApi.request({
       url: "/departments",
       method: "POST",
-      data: product,
+      data: department,
       signal: cancel
         ? cancelApiObject[this.create.name].handleRequestCancellation().signal
         : undefined,
