@@ -4,9 +4,9 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import Skeleton from "@mui/material/Skeleton";
-import Button from "@mui/material/Button";
+import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { DepartmentAPI } from "../../services/departmentAPI";
+import DepartmentAPI from "../../services/departmentAPI";
 
 const LoadingSkeleton = () => (
   <Box
@@ -53,31 +53,21 @@ const Departement = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [tableDept, setTableDept] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const api = new DepartmentAPI();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setInterval(
-      () =>
-        fetch("http://127.0.0.1:8000/hrm/departments/")
-          .then((response) => response.json())
-          .then((data) => {
-            setTableDept(data);
-            setLoading(false);
-          }),
-      3000
-    ); 
-    console.log("DATA:"+ tableDept);
-    /* DepartmentAPI.getAll().then((departments) => {
-      setTableDept(departments);
+    setLoading(true);
+    api.getDepartments().then((res) => {
+      setDepartments(res.data);
       setLoading(false);
     });
-    console.log(tableDept);*/
-  }, []); 
+  }, []);
 
   return (
     <Box m="20px">
-      <Header title="DEPARTEMENT" subtitle="Managing the departments" />
+      <Header title="DEPARTMENT" subtitle="Managing the departments" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -112,18 +102,16 @@ const Departement = () => {
       >
         <Box display="flex" justifyContent="flex-end">
           <Button
+            href="/formDepartment"
             color="success"
             variant="outlined"
             startIcon={<AddIcon />}
-            onClick={(e) => {
-              e.preventDefault();
-            }}
           >
             Add new
           </Button>
         </Box>
         <DataGrid
-          rows={tableDept}
+          rows={departments}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10]}
@@ -133,7 +121,7 @@ const Departement = () => {
             Toolbar: GridToolbar,
           }}
           loading={loading}
-          getRowId={(row) => row.departmentId}
+          getRowId={(rows) => rows.departmentId}
         />
       </Box>
     </Box>

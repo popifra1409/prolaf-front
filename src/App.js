@@ -6,6 +6,7 @@ import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Department from "./scenes/departement";
+import FormDepartement from "./scenes/departement/formDepartment";
 /* import Employes from "./scenes/employes";
 import Prestataires from "./scenes/prestataires";
 import Clients from "./scenes/clients"; */
@@ -25,6 +26,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/departments" element={<Department />} />
+              <Route path="/formDepartment" element={<FormDepartement />} />
               {/* <Route path="/employees" element={<Employees />} />
               <Route path="/suppliers" element={<Suppliers />} />
               <Route path="/clients" element={<Clients />} /> */}
