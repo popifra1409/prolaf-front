@@ -7,6 +7,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DepartmentAPI from "../../services/departmentAPI";
+import moment from "moment";
 
 const LoadingSkeleton = () => (
   <Box
@@ -24,22 +25,33 @@ const columns = [
   {
     field: "departmentId",
     headerName: "ID",
-    flex: 0.3,
+    width: 100,
     cellClassName: "name-column--cell",
   },
-  { field: "dept_name", headerName: "Name", flex: 0.5 },
-  { field: "dept_description", headerName: "Description", flex: 0.5 },
+  { field: "dept_name", headerName: "Name", width: 170 },
+  { field: "dept_description", headerName: "Description", width: 220 },
   {
     field: "dept_number",
     headerName: "Phone Number",
     headerAlign: "left",
     align: "right",
+    width: 100,
   },
   {
     field: "dept_parent",
     headerName: "Parent",
-    flex: 0.3,
+    width: 170,
     cellClassName: "name-column--cell",
+    type: "singleSelect",
+    /* valueOptions: { row }, */
+    editable: true,
+  },
+  {
+    field: "createDate",
+    headerName: "Created At",
+    width: 170,
+    renderCell: (params) =>
+      moment(params.row.createDate).format("YYYY-MM-DD HH-MN-SS"),
   },
   {
     field: "action",
