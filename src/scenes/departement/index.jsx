@@ -102,7 +102,7 @@ const Departement = () => {
       >
         <Box display="flex" justifyContent="flex-end">
           <Button
-            href="/formDepartment"
+            href="/hrm/formDepartment"
             color="success"
             variant="outlined"
             startIcon={<AddIcon />}

@@ -24,9 +24,10 @@ function App() {
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/departments" element={<Department />} />
-              <Route path="/formDepartment" element={<FormDepartement />} />
+              {/* Routes for human resources */}
+              <Route path="/hrm" index element={<Dashboard />} />
+              <Route path="/hrm/departments" element={<Department />} />
+              <Route path="/hrm/formDepartment" element={<FormDepartement />} />
               {/* <Route path="/employees" element={<Employees />} />
               <Route path="/suppliers" element={<Suppliers />} />
               <Route path="/clients" element={<Clients />} /> */}
