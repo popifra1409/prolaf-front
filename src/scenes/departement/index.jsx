@@ -4,80 +4,93 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import Skeleton from "@mui/material/Skeleton";
-import Button from "@mui/material/Button";
+import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { DepartmentAPI } from "../../services/departmentAPI";
-
-const LoadingSkeleton = () => (
-  <Box
-    sx={{
-      height: "max-content",
-    }}
-  >
-    {[...Array(10)].map((_, index) => (
-      <Skeleton variant="rectangular" sx={{ my: 4, mx: 1 }} key={index} />
-    ))}
-  </Box>
-);
-
-const columns = [
-  {
-    field: "departmentId",
-    headerName: "ID",
-    flex: 0.3,
-    cellClassName: "name-column--cell",
-  },
-  { field: "dept_name", headerName: "Name", flex: 0.5 },
-  { field: "dept_description", headerName: "Description", flex: 0.5 },
-  {
-    field: "dept_number",
-    headerName: "Phone Number",
-    headerAlign: "left",
-    align: "right",
-  },
-  {
-    field: "dept_parent",
-    headerName: "Parent",
-    flex: 0.3,
-    cellClassName: "name-column--cell",
-  },
-  {
-    field: "action",
-    headerName: "Action",
-    sortable: false,
-    renderCell: () => <button>Action</button>,
-  },
-];
+import DepartmentAPI from "../../services/departmentAPI";
+import moment from "moment";
 
 const Departement = () => {
+  const [pageSize, setPageSize] = useState(5);
+  const LoadingSkeleton = () => (
+    <Box
+      sx={{
+        height: "max-content",
+      }}
+    >
+      {[...Array(10)].map((_, index) => (
+        <Skeleton variant="rectangular" sx={{ my: 4, mx: 1 }} key={index} />
+      ))}
+    </Box>
+  );
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [tableDept, setTableDept] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const api = new DepartmentAPI();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setInterval(
-      () =>
-        fetch("http://127.0.0.1:8000/hrm/departments/")
-          .then((response) => response.json())
-          .then((data) => {
-            setTableDept(data);
-            setLoading(false);
-          }),
-      3000
-    ); 
-    console.log("DATA:"+ tableDept);
-    /* DepartmentAPI.getAll().then((departments) => {
-      setTableDept(departments);
+    setLoading(true);
+    api.getDepartments().then((res) => {
+      setDepartments(res.data);
       setLoading(false);
     });
-    console.log(tableDept);*/
-  }, []); 
+  }, []);
+
+  const columns = [
+    {
+      field: "departmentId",
+      headerName: "ID",
+      width: 100,
+      cellClassName: "name-column--cell",
+    },
+    { field: "dept_name", headerName: "Name", width: 170, editable: true },
+    {
+      field: "dept_description",
+      headerName: "Description",
+      width: 220,
+      editable: true,
+    },
+    {
+      field: "dept_number",
+      headerName: "Phone Number",
+      headerAlign: "left",
+      align: "right",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "dept_parent",
+      headerName: "Parent",
+      width: 170,
+      cellClassName: "name-column--cell",
+      type: "singleSelect",
+      valueOptions: ({ row }) => {
+        const options = [];
+        departments?.map((department) => options.push(department.dept_name));
+        return options;
+      },
+      editable: true,
+    },
+    {
+      field: "createDate",
+      headerName: "Created At",
+      width: 170,
+      renderCell: (params) =>
+        moment(params.row.createDate).format("YYYY-MM-DD HH-MM-SS"),
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      /* type: actions, */
+      sortable: false,
+      renderCell: () => <button>Action</button>,
+    },
+  ];
 
   return (
     <Box m="20px">
-      <Header title="DEPARTEMENT" subtitle="Managing the departments" />
+      <Header title="DEPARTMENT" subtitle="Managing the departments" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -112,28 +125,27 @@ const Departement = () => {
       >
         <Box display="flex" justifyContent="flex-end">
           <Button
+            href="/hrm/formDepartment"
             color="success"
             variant="outlined"
             startIcon={<AddIcon />}
-            onClick={(e) => {
-              e.preventDefault();
-            }}
           >
             Add new
           </Button>
         </Box>
         <DataGrid
-          rows={tableDept}
+          rows={departments}
           columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
           checkboxSelection
           components={{
             LoadingOverlay: LoadingSkeleton,
             Toolbar: GridToolbar,
           }}
           loading={loading}
-          getRowId={(row) => row.departmentId}
+          getRowId={(rows) => rows.departmentId}
+          rowsPerPageOptions={[5, 10, 20]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         />
       </Box>
     </Box>

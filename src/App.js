@@ -6,6 +6,7 @@ import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Department from "./scenes/departement";
+import FormDepartement from "./scenes/departement/formDepartment";
 /* import Employes from "./scenes/employes";
 import Prestataires from "./scenes/prestataires";
 import Clients from "./scenes/clients"; */
@@ -23,8 +24,15 @@ function App() {
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
+
               <Route path="/" element={<Dashboard />} />
               <Route path="/departments" element={<Department />} />
+
+              {/* Routes for human resources */}
+              <Route path="/hrm" index element={<Dashboard />} />
+              <Route path="/hrm/departments" element={<Department />} />
+              <Route path="/hrm/formDepartment" element={<FormDepartement />} />
+
               {/* <Route path="/employees" element={<Employee />} />
               <Route path="/suppliers" element={<Suppliers />} />
               <Route path="/clients" element={<Clients />} /> */}
