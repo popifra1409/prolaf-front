@@ -7,6 +7,7 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Department from "./scenes/departement";
 import FormDepartement from "./scenes/departement/formDepartment";
+import FormEmployee from "./scenes/employee/formEmployee";
 /* import Employes from "./scenes/employes";
 import Prestataires from "./scenes/prestataires";
 import Clients from "./scenes/clients"; */
@@ -32,8 +33,9 @@ function App() {
               <Route path="/hrm" index element={<Dashboard />} />
               <Route path="/hrm/departments" element={<Department />} />
               <Route path="/hrm/formDepartment" element={<FormDepartement />} />
+              <Route path="/hrm/formEmployee" element={<FormEmployee />} />
 
-              {/* <Route path="/employees" element={<Employee />} />
+              {/* 
               <Route path="/suppliers" element={<Suppliers />} />
               <Route path="/clients" element={<Clients />} /> */}
             </Routes>
