@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Department from "./scenes/departement";
 import FormDepartement from "./scenes/departement/formDepartment";
+import Employee from "./scenes/employee";
 import FormEmployee from "./scenes/employee/formEmployee";
-/* import Employes from "./scenes/employes";
-import Prestataires from "./scenes/prestataires";
+
+/*import Prestataires from "./scenes/prestataires";
 import Clients from "./scenes/clients"; */
 
 function App() {
@@ -25,19 +26,17 @@ function App() {
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
-
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/departments" element={<Department />} />
-
               {/* Routes for human resources */}
               <Route path="/hrm" index element={<Dashboard />} />
-              <Route path="/hrm/departments" element={<Department />} />
+              <Route path="/hrm/departments" element={<Department />} /> 
               <Route path="/hrm/formDepartment" element={<FormDepartement />} />
-              <Route path="/hrm/formEmployee" element={<FormEmployee />} />
+              <Route path="/hrm/employees" element={<Employee />} />
+              <Route path="/hrm/formEmployee" element={<FormEmployee />} /> 
 
               {/* 
               <Route path="/suppliers" element={<Suppliers />} />
               <Route path="/clients" element={<Clients />} /> */}
+              
             </Routes>
           </main>
         </div>

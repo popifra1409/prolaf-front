@@ -139,7 +139,7 @@ const Sidebar = () => {
             />
             <Item
               title="Employees"
-              to="/employes"
+              to="/hrm/employees"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

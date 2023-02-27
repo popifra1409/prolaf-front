@@ -6,12 +6,9 @@ import SelectDept from "./select";
 
 
 const Controls = {
- 
     RadioGroup,
     Checkbox,
     DatePicker,
     SelectDept
-
 }
-
 export default Controls;

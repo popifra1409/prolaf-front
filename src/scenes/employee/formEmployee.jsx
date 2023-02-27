@@ -1,16 +1,17 @@
-import { Box, Button,FormLabel, FormControl,Select, InputLabel,MenuItem, TextField } from "@mui/material";
+import { Box, Button, FormControl,Select, InputLabel,MenuItem, TextField } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import Controls from "../../components/controls/Controls";
+import SelectDept from "../../components/controls/select";
 
 
 
 const genderItems = [
   { id: 'male', title: 'Male' },
   { id: 'female', title: 'Female' },
-  { id: 'other', title: 'Other' },
+  { id: 'Not Precise', title: 'Not Precise' },
 ]
 
 
@@ -21,7 +22,7 @@ const initialValues = {
   lastname: "",
   birthdate: "",
   birthplace: "",
-  gender: "",
+  gender: "Not Precise",
   email: "",
   address: "",
   phone: "",
@@ -34,8 +35,8 @@ const initialValues = {
   whatsappnumber: "",
   facebooklink: "",
   resourcecontact: "",
-  isChiefOfDepartment: "",
   superior:"",
+  isChiefOfDepartment: "",
   
 };
 
@@ -114,24 +115,17 @@ const employeeSchema = yup.object().shape({
                   sx={{ gridColumn: "span 2" }}
                     />
 
-                  <FormLabel>Department</FormLabel>
-                      {/* <Controls.Select
-                        name="department"
-                        label="Department"
-                        value={values.department}
-                        onChange={handleChange}
-                        onBlur={handleBlur} 
-                        error={errors.department}
-                    > 
-                        {departments.map( departments => (
-                          <MenuItem value={departments.dept_name} key={departments.departmentId}>{departments.dept_name}</MenuItem>
-                        ))}
-                    </Controls.Select> */}
- 
-                         
-                
-                
-                
+                  <FormControl
+                    fullWidth
+                    sx={{ gridColumn: "span 2" }}
+                  >
+                    <SelectDept 
+                      label="Department"
+                      sx={{ gridColumn: "span 2" }}
+                      />
+                  </FormControl>
+                    
+
                 <TextField  fullwidth
                   variant="filled"
                   type="text"
@@ -242,7 +236,7 @@ const employeeSchema = yup.object().shape({
                   >
                   <InputLabel id="status">Status</InputLabel>
                   <Select
-                    id="status"
+                    //id="status"
                     value={values.status}
                     label="Status"
                     //onChange={Updateselect}
