@@ -10,7 +10,7 @@ export default function SelectDept(props) {
         useEffect(() => {
         setLoading(true);
         api.getDepartments().then((res) => {
-          setDepartments(res.data);
+          setDepartments(res.data.data);
           setLoading(false);
         });
       }, []);
@@ -36,9 +36,10 @@ export default function SelectDept(props) {
                     name={name}
                     value={value}
                     onChange={handleChange}>
-                    {departments.map(department => (
-                <MenuItem value={department.dept_name} key={department.departmentId}>{department.dept_name}</MenuItem>
-                ))}
+                    {
+                    departments.map(department => (
+                <MenuItem value={department.dept_name} key={department.dept_name}>{department.dept_name}</MenuItem>
+                )) }
                 </Select>
                 {error && <InputLabel>{error}</InputLabel>}
             </FormControl>

@@ -7,6 +7,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DepartmentAPI from "../../services/departmentAPI";
+import EmployeeAPI from "../../services/employeeAPI";
 import moment from "moment";
 
 const Employee = () => {
@@ -24,6 +25,17 @@ const Employee = () => {
   );
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [employees, setEmployees] = useState([]);
+  const newapi = new EmployeeAPI();
+
+  useEffect(() => {
+    setLoading(true);
+    newapi.getEmployees().then((res) => {
+      setEmployees(res.data);
+      setLoading(false);
+    });
+  }, []);
 
   const [departments, setDepartments] = useState([]);
   const api = new DepartmentAPI();
@@ -75,15 +87,14 @@ const Employee = () => {
         headerName: "Date of Birth",
         width: 170,
         renderCell: (params) =>
-          moment(params.row.createDate).format("YYYY-MM-DD HH-MM-SS"),
+          moment(params.row.birthdate).format("YYYY-MM-DD HH-MM-SS"),
       },
     
     {
       field: "birthplace",
       headerName: "Place of Birth",
       width: 170,
-      renderCell: (params) =>
-        moment(params.row.createDate).format("YYYY-MM-DD HH-MM-SS"),
+      editable: true,
     },
     {
         field: "gender",
@@ -126,7 +137,7 @@ const Employee = () => {
         headerName: "Hire Date",
         width: 170,
         renderCell: (params) =>
-          moment(params.row.createDate).format("YYYY-MM-DD HH-MM-SS"),
+          moment(params.row.hiringdate).format("YYYY-MM-DD HH-MM-SS"),
       },
       {
         field: "seniority",
@@ -229,7 +240,7 @@ const Employee = () => {
           </Button>
         </Box>
         <DataGrid
-          rows={departments}
+          rows={employees}
           columns={columns}
           checkboxSelection
           components={{
