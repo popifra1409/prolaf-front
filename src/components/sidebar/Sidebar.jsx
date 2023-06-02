@@ -27,6 +27,7 @@ const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
   const [showAgentsSubitems, setShowAgentsSubitems] = useState(false);
   const [showContractsSubitems, setShowContractsSubitems] = useState(false);
+  const [showMembersSubitems, setshowMembersSubitems] = useState(false);
 
   return (
     <div className="sidebar">
@@ -77,8 +78,8 @@ const Sidebar = () => {
               <span>Agents</span>  
                {showAgentsSubitems && (
                 <div className="subitems">
-                    <li className="sidebar-item"><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Clients</Link></li>
-                    <li className="sidebar-item"><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Suppliers</Link></li>
+                    <li><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Clients</Link></li>
+                    <li><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Suppliers</Link></li>
                 </div>
             )}
           </div>
@@ -93,8 +94,8 @@ const Sidebar = () => {
               <span>Contracts</span>  
                 {showContractsSubitems && (
                   <div className="subitems">
-                    <li className="sidebar-item"><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Internal Contracts</Link></li>
-                    <li className="sidebar-item"><Link to="/hrm/externals" style={{ textDecoration: "none" }}>External Contracts</Link></li>
+                    <li><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Internal Contracts</Link></li>
+                    <li><Link to="/hrm/externals" style={{ textDecoration: "none" }}>External Contracts</Link></li>
                 </div>
             )}
           </div>
@@ -122,14 +123,14 @@ const Sidebar = () => {
           <li> 
           <div
              className="sidebar-item"
-              onMouseEnter={() => setShowAgentsSubitems(true)}
-              onMouseLeave={() => setShowAgentsSubitems(false)}>       
+              onMouseEnter={() => setshowMembersSubitems(true)}
+              onMouseLeave={() => setshowMembersSubitems(false)}>       
               <PersonOutlineIcon className="icon" />
               <span>Members</span>  
-               {showAgentsSubitems && (
+               {showMembersSubitems && (
                 <div className="subitems">
-                    <li className="sidebar-item"><Link to="/family/pigs" style={{ textDecoration: "none" }}>Pigs</Link></li>
-                    <li className="sidebar-item"><Link to="/family/fowls" style={{ textDecoration: "none" }}>Fowl</Link></li>
+                    <li><Link to="/family/pigs" style={{ textDecoration: "none" }}>Pigs</Link></li>
+                    <li><Link to="/family/fowls" style={{ textDecoration: "none" }}>Fowl</Link></li>
                 </div>
             )}
           </div>
