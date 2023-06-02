@@ -8,23 +8,26 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import LocalHospitalOutlinedIcon from '@mui/icons-material/LocalHospitalOutlined';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import MedicationIcon from '@mui/icons-material/Medication';
+import BusinessIcon from '@mui/icons-material/Business';
 import SettingsIcon from '@mui/icons-material/Settings';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import AddAlertIcon from '@mui/icons-material/AddAlert';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
-import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
+import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import StoreIcon from '@mui/icons-material/Store';
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
-import LocalHotelIcon from '@mui/icons-material/LocalHotel';
+import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import React, { useState } from 'react';
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const [showAgentsSubitems, setShowAgentsSubitems] = useState(false);
+  const [showContractsSubitems, setShowContractsSubitems] = useState(false);
+
   return (
     <div className="sidebar">
       <div className="top">
@@ -35,107 +38,125 @@ const Sidebar = () => {
       <hr />
       <div className="center">
         <ul>
-          <p className="title">MENU PRINCIPAL</p>
+          <p className="title">Home</p>
           <Link to="/" style={{ textDecoration: "none" }}>
             <li>
               <DashboardIcon className="icon" />
-              <span>Tableau de bord</span>
+              <span>Dashboard</span>
             </li>
           </Link>
-          <p className="title">Accueil</p>
-          <Link to="/identification/patients" style={{ textDecoration: "none" }}>
+          <p className="title">Human Resources Management</p>
+          <Link to="/hrm/departments" style={{ textDecoration: "none" }}>
             <li>
-              < PersonOutlineIcon className="icon" />
-              <span>Patient</span>
+              < HomeWorkIcon className="icon" />
+              <span>Department</span>
             </li>
           </Link>
-          <Link to="/identification/groupePatients" style={{ textDecoration: "none" }}>
+          <Link to="/hrm/employees" style={{ textDecoration: "none" }}>
             <li>
               <GroupOutlinedIcon className="icon" />
-              <span>Groupe patient</span>
+              <span>Employee</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
-            <li>
-              <MedicalServicesIcon className="icon" />
-              <span>Unités fonctionnelles</span>
-            </li>
-          </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/hrm/documents" style={{ textDecoration: "none" }}>
             <li>
               <TextSnippetIcon className="icon" />
               <span>Documents</span>
             </li>
           </Link>
+          <div>
+      
+    </div>
+            
+        <li> 
+          <div
+             className="sidebar-item"
+              onMouseEnter={() => setShowAgentsSubitems(true)}
+              onMouseLeave={() => setShowAgentsSubitems(false)}>       
+              <PersonAddAltIcon className="icon" />
+              <span>Agents</span>  
+               {showAgentsSubitems && (
+                <div className="subitems">
+                    <li className="sidebar-item"><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Clients</Link></li>
+                    <li className="sidebar-item"><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Suppliers</Link></li>
+                </div>
+            )}
+          </div>
+        </li>      
 
-          <p className="title">Admission</p>
-          <Link to="/identification/patients" style={{ textDecoration: "none" }}>
-            <li>
-              < LocalHotelIcon className="icon" />
-              <span>Hospitalisation</span>
-            </li>
-          </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
-            <li>
-              < LocalHospitalIcon className="icon" />
-              <span>Urgence</span>
-            </li>
-          </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
-            <li>
-              <AirlineSeatFlatIcon className="icon" />
-              <span>Morgue</span>
-            </li>
-          </Link>
+        <li> 
+          <div
+            className="sidebar-item"
+              onMouseEnter={() => setShowContractsSubitems(true)}
+              onMouseLeave={() => setShowContractsSubitems(false)}>       
+              <NoteAltIcon className="icon" />
+              <span>Contracts</span>  
+                {showContractsSubitems && (
+                  <div className="subitems">
+                    <li className="sidebar-item"><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Internal Contracts</Link></li>
+                    <li className="sidebar-item"><Link to="/hrm/externals" style={{ textDecoration: "none" }}>External Contracts</Link></li>
+                </div>
+            )}
+          </div>
+        </li>
 
-          <p className="title">Pharmacie</p>
-          <Link to="/identification/patients" style={{ textDecoration: "none" }}>
+        <p className="title">Birth Monitoring</p>
+        <Link to="/family/buildings" style={{ textDecoration: "none" }}>
             <li>
-              < MedicationIcon className="icon" />
-              <span>Produit</span>
+              < BusinessIcon className="icon" />
+              <span>Buildings</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/family/lodges" style={{ textDecoration: "none" }}>
+            <li>
+              < StoreIcon className="icon" />
+              <span>Lodges</span>
+            </li>
+          </Link>
+          <Link to="/family/families" style={{ textDecoration: "none" }}>
+            <li>
+              <FamilyRestroomIcon className="icon" />
+              <span>Families</span>
+            </li>
+          </Link>
+          <li> 
+          <div
+             className="sidebar-item"
+              onMouseEnter={() => setShowAgentsSubitems(true)}
+              onMouseLeave={() => setShowAgentsSubitems(false)}>       
+              <PersonOutlineIcon className="icon" />
+              <span>Members</span>  
+               {showAgentsSubitems && (
+                <div className="subitems">
+                    <li className="sidebar-item"><Link to="/family/pigs" style={{ textDecoration: "none" }}>Pigs</Link></li>
+                    <li className="sidebar-item"><Link to="/family/fowls" style={{ textDecoration: "none" }}>Fowl</Link></li>
+                </div>
+            )}
+          </div>
+        </li>     
+          <Link to="/family/parameters" style={{ textDecoration: "none" }}>
             <li>
               <SettingsIcon className="icon" />
-              <span>Paramétrage</span>
+              <span>Parameters</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/family/paramregistrations" style={{ textDecoration: "none" }}>
             <li>
-              <SyncAltIcon className="icon" />
-              <span>Mouvement interne</span>
+              <SettingsSuggestIcon className="icon" />
+              <span>Parameters Registration</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
-            <li>
-              <KeyboardBackspaceIcon className="icon" />
-              <span>Mouvement externe</span>
-            </li>
-          </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/family/lodgeregistrations" style={{ textDecoration: "none" }}>
             <li>
               <AddBusinessIcon className="icon" />
-              <span>Mouvement stock</span>
+              <span>Lodges Registration</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
-            <li>
-              <InventoryIcon className="icon" />
-              <span>Inventaire</span>
-            </li>
-          </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
-            <li>
-              <AddAlertIcon className="icon" />
-              <span>Alerte</span>
-            </li>
-          </Link>
-
-          <p className="title">Paramétrage</p>
+          
+          <p className="title">Configurations</p>
           <li>
             <LocalHospitalOutlinedIcon className="icon" />
-            <span>Etablissement</span>
+            <span>Structure</span>
           </li>
           <li>
             <PsychologyOutlinedIcon className="icon" />
@@ -145,10 +166,10 @@ const Sidebar = () => {
             <SettingsApplicationsIcon className="icon" />
             <span>Settings</span>
           </li>
-          <p className="title">Utilisateurs</p>
+          <p className="title">Users</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
+            <span>Profil</span>
           </li>
           <li>
             <ExitToAppIcon className="icon" />
