@@ -78,8 +78,8 @@ const Sidebar = () => {
               <span>Agents</span>  
                {showAgentsSubitems && (
                 <div className="subitems">
-                    <li><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Clients</Link></li>
-                    <li><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Suppliers</Link></li>
+                    <li><Link to="/hrm/clients" style={{ textDecoration: "none" }}>Clients</Link></li>
+                    <li><Link to="/hrm/suppliers" style={{ textDecoration: "none" }}>Suppliers</Link></li>
                 </div>
             )}
           </div>
@@ -94,7 +94,7 @@ const Sidebar = () => {
               <span>Contracts</span>  
                 {showContractsSubitems && (
                   <div className="subitems">
-                    <li><Link to="/hrm/internals" style={{ textDecoration: "none" }}>Internal Contracts</Link></li>
+                    <li><Link to="/hrm/internals" style={{ textDecoration: "none" }}><TextSnippetIcon className="icon" />Internal Contracts</Link></li>
                     <li><Link to="/hrm/externals" style={{ textDecoration: "none" }}>External Contracts</Link></li>
                 </div>
             )}
@@ -147,7 +147,7 @@ const Sidebar = () => {
               <span>Parameters Registration</span>
             </li>
           </Link>
-          <Link to="/family/lodgeregistrations" style={{ textDecoration: "none" }}>
+          <Link to="/family/lodge_Registrations" style={{ textDecoration: "none" }}>
             <li>
               <AddBusinessIcon className="icon" />
               <span>Lodges Registration</span>
