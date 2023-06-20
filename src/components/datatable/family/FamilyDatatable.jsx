@@ -28,7 +28,7 @@ const FamilyDatatable = () => {
         return (
           <div className="cellAction">
 
-            <Link to={`/identification/families/${params.id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/family/families/${params.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div

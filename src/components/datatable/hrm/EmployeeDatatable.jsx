@@ -28,7 +28,7 @@ const EmployeeDatatable = () => {
         return (
           <div className="cellAction">
 
-            <Link to={`/identification/employees/${params.id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/hrm/employees/${params.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -47,7 +47,7 @@ const EmployeeDatatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         EMPLOYEE MANAGEMENT
-        <Link to="/identification/employees/newemployee"  className="link">
+        <Link to="/hrm/employees/newemployee"  className="link">
           NEW
         </Link>
       </div>

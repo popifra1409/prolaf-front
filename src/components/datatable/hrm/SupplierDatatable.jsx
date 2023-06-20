@@ -28,7 +28,7 @@ const SupplierDatatable = () => {
         return (
           <div className="cellAction">
 
-            <Link to={`/identification/suppliers/${params.id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/hrm/suppliers/${params.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div

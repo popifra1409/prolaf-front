@@ -10,7 +10,7 @@ class DocumentAPI {
 
     //get a single document
     getDocumentById = async (documentId) =>{
-        return await  axios.get(Document_API_BASE_URL + documentId);
+        return await  axios.get(Document_API_BASE_URL + documentId + "/");
     };
 
     //create a document

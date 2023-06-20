@@ -28,7 +28,7 @@ const ParameterDatatable = () => {
         return (
           <div className="cellAction">
 
-            <Link to={`/identification/parameters/${params.id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/family/parameters/${params.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div

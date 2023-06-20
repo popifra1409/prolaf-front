@@ -10,7 +10,7 @@ class BuildingAPI {
 
     //get a single building
     getBuildingById = async (buildingId) =>{
-        return await  axios.get(Building_API_BASE_URL + buildingId);
+        return await  axios.get(Building_API_BASE_URL + buildingId + "/");
     };
 
     //create a building

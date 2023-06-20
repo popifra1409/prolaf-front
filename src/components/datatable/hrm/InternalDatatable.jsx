@@ -28,7 +28,7 @@ const InternalDatatable = () => {
         return (
           <div className="cellAction">
 
-            <Link to={`/identification/internals/${params.id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/hrm/internals/${params.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div

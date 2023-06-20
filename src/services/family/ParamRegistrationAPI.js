@@ -10,7 +10,7 @@ class ParamRegistrationAPI {
 
     //get a single paramRegistration
     getParamRegistrationById = async (paramRegistrationId) =>{
-        return await  axios.get(ParamRegistration_API_BASE_URL + paramRegistrationId);
+        return await  axios.get(ParamRegistration_API_BASE_URL + paramRegistrationId + "/");
     };
 
     //create a paramRegistration

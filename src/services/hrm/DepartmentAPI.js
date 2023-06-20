@@ -10,7 +10,7 @@ class DepartmentAPI {
 
     //get a single department
     getDepartmentById = async (departmentId) =>{
-        return await  axios.get(Department_API_BASE_URL + departmentId);
+        return await  axios.get(Department_API_BASE_URL + departmentId + "/" );
     };
 
     //create a department

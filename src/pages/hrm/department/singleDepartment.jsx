@@ -21,8 +21,8 @@ const SingleDepartment = () => {
     });
 
     useEffect(() => {
-        DepartmentAPI.getDepartmentsById(departmentid).then((res) => {
-            let pat = res.data.data;
+        DepartmentAPI.getDepartmentById(departmentid).then((res) => {
+            let pat = res.data;
             setDepartment({
                 departmentId: pat.departmentId,
                 dept_parent: pat.dept_parent,
@@ -44,7 +44,7 @@ const SingleDepartment = () => {
                     <div className="left">
                         <div className="editButton">
                             <Link
-                                to={`/identification/patients/update/${departmentid}/`}
+                                to={`/hrm/departments/update/${departmentid}/`}
                                 style={{ textDecoration: "none" }}
                             >
                                 Edit
@@ -55,20 +55,20 @@ const SingleDepartment = () => {
                             <div className="details">
                                 <h1 className="itemTitle">{department.departmentId}</h1>
                                 <div className="detailItem">
-                                    <span className="itemKey">Department Parents:</span>
-                                    <span className="itemValue">{department.departmentdept_parent}</span>
+                                    <span className="itemKey">Department Parent:</span>
+                                    <span className="itemValue">{department.dept_parent}</span>
                                 </div>
                                 <div className="detailItem">
                                     <span className="itemKey">Department Name:</span>
-                                    <span className="itemValue">{department.departmentdept_name}</span>
+                                    <span className="itemValue">{department.dept_name}</span>
                                 </div>
                                 <div className="detailItem">
                                     <span className="itemKey">Description:</span>
-                                    <span className="itemValue">{department.departmentdept_description}</span>
+                                    <span className="itemValue">{department.dept_description}</span>
                                 </div>
                                 <div className="detailItem">
                                     <span className="itemKey">Department Number:</span>
-                                    <span className="itemValue">{department.departmentdept_number}</span>
+                                    <span className="itemValue">{department.dept_number}</span>
                                 </div>
                                 
                             </div>

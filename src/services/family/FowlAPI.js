@@ -10,7 +10,7 @@ class FowlAPI {
 
     //get a single fowl
     getFowlById = async (memberId) =>{
-        return await  axios.get(Fowl_API_BASE_URL + memberId);
+        return await  axios.get(Fowl_API_BASE_URL + memberId + "/");
     };
 
     //create a fowl

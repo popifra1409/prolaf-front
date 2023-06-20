@@ -10,7 +10,7 @@ class ClientAPI {
 
     //get a single client
     getClientById = async (agentId) =>{
-        return await  axios.get(Client_API_BASE_URL + agentId);
+        return await  axios.get(Client_API_BASE_URL + agentId + "/");
     };
 
     //create a client

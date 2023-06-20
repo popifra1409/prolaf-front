@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const Family_API_BASE_URL = "http://localhost:8000/hrm/families/";
+const Family_API_BASE_URL = "http://localhost:8000/family/families/";
 
 class FamilyAPI {
     //list all families
@@ -10,7 +10,7 @@ class FamilyAPI {
 
     //get a single family
     getFamilyById = async (familyId) =>{
-        return await  axios.get(Family_API_BASE_URL + familyId);
+        return await  axios.get(Family_API_BASE_URL + familyId + "/");
     };
 
     //create a family

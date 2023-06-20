@@ -28,7 +28,7 @@ const BuildingDatatable = () => {
         return (
           <div className="cellAction">
 
-            <Link to={`/identification/buildings/${params.id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/family/buildings/${params.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div

@@ -8,7 +8,7 @@ import ExternalAPI from "../../../services/hrm/ExternalAPI";
 
 const ExternalDatatable = () => {
   const [pageSize, setPageSize] = useState(10);
-  const [external, setExternals] = useState([]);
+  const [externals, setExternals] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const ExternalDatatable = () => {
         return (
           <div className="cellAction">
 
-            <Link to={`/identification/externals/${params.id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/hrm/externals/${params.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -46,14 +46,14 @@ const ExternalDatatable = () => {
 
     <div className="datatable">
       <div className="datatableTitle">
-        EXTERNAL CONTRACTS MANAGEMENT
-        <Link to="/identification/externals/newexternal"  className="link">
+        EXTERNAL MANAGEMENT
+        <Link to="/hrm/externals/newexternal"  className="link">
           NEW
         </Link>
       </div>
       <DataGrid
         className="datagrid"
-        rows={external}
+        rows={externals}
         columns={externalColumns.concat(actionColumn)}
         loading={loading}
         getRowId={(rows) => rows.agentId}

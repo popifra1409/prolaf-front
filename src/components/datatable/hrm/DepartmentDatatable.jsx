@@ -28,7 +28,7 @@ const DepartmentDatatable = () => {
         return (
           <div className="cellAction">
 
-            <Link to={`/identification/departments/${params.id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/hrm/departments/${params.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -47,7 +47,7 @@ const DepartmentDatatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         DEPARTMENT MANAGEMENT
-        <Link to="/identification/departments/newdepartment"  className="link">
+        <Link to="/hrm/departments/newdepartment"  className="link">
           NEW
         </Link>
       </div>

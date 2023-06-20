@@ -10,7 +10,7 @@ class SupplierAPI {
 
     //get a single supplier
     getSupplierById = async (agentId) =>{
-        return await  axios.get(Supplier_API_BASE_URL + agentId);
+        return await  axios.get(Supplier_API_BASE_URL + agentId + "/");
     };
 
     //create a supplier

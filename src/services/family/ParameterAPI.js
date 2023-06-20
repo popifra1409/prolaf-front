@@ -10,7 +10,7 @@ class ParameterAPI {
 
     //get a single parameter
     getParameterById = async (parameterId) =>{
-        return await  axios.get(Parameter_API_BASE_URL + parameterId);
+        return await  axios.get(Parameter_API_BASE_URL + parameterId + "/");
     };
 
     //create a parameter

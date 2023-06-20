@@ -10,7 +10,7 @@ class LodgeAPI {
 
     //get a single lodge
     getLodgeById = async (lodgeId) =>{
-        return await  axios.get(Lodge_API_BASE_URL + lodgeId);
+        return await  axios.get(Lodge_API_BASE_URL + lodgeId + "/");
     };
 
     //create a lodge

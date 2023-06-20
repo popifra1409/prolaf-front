@@ -10,7 +10,7 @@ class PigAPI {
 
     //get a single pig
     getPigById = async (memberId) =>{
-        return await  axios.get(Pig_API_BASE_URL + memberId);
+        return await  axios.get(Pig_API_BASE_URL + memberId + "/");
     };
 
     //create a pig

@@ -10,7 +10,7 @@ class InternalAPI {
 
     //get a single internal
     getInternalById = async (contractId) =>{
-        return await  axios.get(Internal_API_BASE_URL + contractId);
+        return await  axios.get(Internal_API_BASE_URL + contractId + "/");
     };
 
     //create a internal

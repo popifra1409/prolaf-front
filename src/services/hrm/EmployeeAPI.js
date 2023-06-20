@@ -10,7 +10,7 @@ class EmployeeAPI {
 
     //get a single employee
     getEmployeeById = async (employeeId) =>{
-        return await  axios.get(Employee_API_BASE_URL + employeeId);
+        return await  axios.get(Employee_API_BASE_URL + employeeId + "/");
     };
 
     //create a employee

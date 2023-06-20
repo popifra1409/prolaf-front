@@ -10,7 +10,7 @@ class ExternalAPI {
 
     //get a single external
     getExternalById = async (contractId) =>{
-        return await  axios.get(External_API_BASE_URL + contractId);
+        return await  axios.get(External_API_BASE_URL + contractId + "/");
     };
 
     //create an external
