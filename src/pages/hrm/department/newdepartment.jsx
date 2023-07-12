@@ -59,7 +59,6 @@ const NewDepartment = ({ title }) => {
 
 
     const FORM_VALIDATION = Yup.object().shape({
-        dept_parent: Yup.string().required("Enter the department parent"),
         dept_name: Yup.string().required("Enter the department name").min(3, 'It should contain al least 3 letters'),
         dept_description: Yup.string().required("Enter the department description"),
         dept_number: Yup.number().integer().typeError('Invalid Phone number').required('Enter the phone number').min(9, 'Should contain 9 figures'),
@@ -103,14 +102,7 @@ const NewDepartment = ({ title }) => {
                                                     label="Department Parent"
                                                     options = {departments} 
                                                     />
-                                                        
-                                                    {/* {departments.map((department) => (
-                                                        <option key={department.departmentId} value={department.departmentId} name={department.dept_parent}>
-                                                          {department.dept_name}
-                                                        </option>
-                                                      ))} 
-                                                    
-                                                </Select>*/} 
+                                                   
                                             </Grid>
                                             <Grid item xs={6} className={classes.strech}>
                                                 <TextField

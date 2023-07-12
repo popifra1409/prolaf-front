@@ -24,6 +24,12 @@ class DepartmentAPI {
     updateDepartment = async(department, parentid) =>{
         return await axios.put(Department_API_BASE_URL + parentid + "/update/", department );
     };
+
+
+    //delete a department
+    deleteDepartment = async( departmentId) =>{
+        return await axios.delete(Department_API_BASE_URL + departmentId + "/delete/" );
+    };
 }
 
 export default new DepartmentAPI()
