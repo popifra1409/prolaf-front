@@ -56,7 +56,7 @@ const ExternalDatatable = () => {
         rows={externals}
         columns={externalColumns.concat(actionColumn)}
         loading={loading}
-        getRowId={(rows) => rows.agentId}
+        getRowId={(rows) => rows.contractId}
         rowsPerPageOptions={[5, 10, 20]}
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}

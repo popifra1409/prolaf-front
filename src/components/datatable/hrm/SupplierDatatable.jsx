@@ -47,7 +47,7 @@ const SupplierDatatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         SUPPLIER MANAGEMENT
-        <Link to="/identification/suppliers/newsupplier"  className="link">
+        <Link to="/hrm/suppliers/newsupplier"  className="link">
           NEW
         </Link>
       </div>

@@ -13,7 +13,7 @@ const SelectWrapper = ({
     const handleChange = evt => {
         const { value } = evt.target;
         setFieldValue(name, value)
-    }
+    } 
 
     const configSelect = {
         ...field,
@@ -31,13 +31,28 @@ const SelectWrapper = ({
 
     return (
         <TextField {...configSelect}>
-            {Object.keys(options).map((item, pos) => {
+            {Array.isArray(options) ? (
+        options.map(option => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))
+      ) : (
+        <MenuItem value="">No options available</MenuItem>
+      )}
+
+        {/* {options.map((option) => (
+        <MenuItem key={option.value} value={option.value}>
+          {option.label}
+        </MenuItem>
+      ))}
+             {Object.keys(options).map((item, pos) => {
                 return (
                     <MenuItem key={pos} value={item}>
                         {options[item]}
                     </MenuItem>
                 )
-            })}
+            })}  */}
         </TextField>
     )
 }

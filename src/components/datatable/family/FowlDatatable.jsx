@@ -47,7 +47,7 @@ const FowlDatatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         FOWL MANAGEMENT
-        <Link to="/identification/fowls/newFowl"  className="link">
+        <Link to="/family/fowls/newFowl"  className="link">
           NEW
         </Link>
       </div>

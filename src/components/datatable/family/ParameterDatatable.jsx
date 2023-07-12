@@ -47,7 +47,7 @@ const ParameterDatatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         PARAMETER MANAGEMENT
-        <Link to="/identification/parameters/newparameter"  className="link">
+        <Link to="/family/parameters/newparameter"  className="link">
           NEW
         </Link>
       </div>

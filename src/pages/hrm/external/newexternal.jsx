@@ -9,9 +9,11 @@ import { CircularProgress } from "@mui/material";
 import * as Yup from "yup";
 import TextField from "../../../components/FormsUI/Textfield";
 import Select from "../../../components/FormsUI/Select";
-import FileInput from "../../../components/FormsUI/FileInput";
+import Radio from "../../../components/FormsUI/RadioButton";
 /*import { TextField, Select } from "@material-ui/core"; */
-import EmployeeAPI from "../../../services/hrm/EmployeeAPI";
+import ClientAPI from "../../../services/hrm/ClientAPI";
+import SupplierAPI from "../../../services/hrm/SupplierAPI";
+import DateTimePicker from "../../../components/FormsUI/DateTimePicker";
 
 const emptyInfoSup = { information: '', value: '' };
 const useStyles = makeStyles(theme => (
@@ -28,21 +30,32 @@ const useStyles = makeStyles(theme => (
     }
 ));
 
-const NewDocument = ({ title }) => {
+const NewExternal = ({ title }) => {
 
-    const [employees, setEmployee] = useState([]);
+    const [clients, setClient] = useState([]);
+    const [suppliers, setSupplier] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);
-          EmployeeAPI.getEmployees()
+          ClientAPI.getClients()
           .then((res) => {
-            const employees = res.data.map(employee => (
-              <option key={employee.employeeIdId} value={employee.employeeId}>
-                {employee.firstname}
+            const clients = res.data.map(client => (
+              <option key={client.agentId} value={client.agentId}>
+                {client.firstname}
               </option>
             ));
-            setEmployee(employees);
+            setClient(clients);
+            setLoading(false);
+          })
+          SupplierAPI.getSuppliers()
+          .then((res) => {
+            const suppliers = res.data.map(supplier => (
+              <option key={supplier.agentId} value={supplier.agentId}>
+                {supplier.firstname}
+              </option>
+            ));
+            setSupplier(suppliers);
             setLoading(false);
           })
           .catch((error) => {
@@ -56,20 +69,26 @@ const NewDocument = ({ title }) => {
     const classes = useStyles();
 
     const INITIAL_FORM_STATE = {
+        contract_no: "",
         employee: "",
-        numCni: "",
-        cniupload: "",
-        diploma: "",
-        diplomaupload: "",
-        mariagecertificate: ""
+        dateofcreation: "",
+        duration: "",
+        formofcontract: "",
+        contractupload: ""
+        
     };
 
+    const typeagent = [
+        { value: 'client', label: 'Client' },
+        { value: 'supplier', label: 'Supplier' }
+        
+    ];
 
     const FORM_VALIDATION = Yup.object().shape({
         employee: Yup.string().required("Select the employee"),
-        cniupload: Yup.string().required("Provide the ID Card"),
-        diplomaupload: Yup.string().required("Provide the Diploma"),
-        mariagecertificate: Yup.string().required("Provide the Mariage Certificate")
+        contract_no: Yup.string().required("Provide the contract number"),
+        duration: Yup.string().required("Provide the Duration"),
+        contractupload: Yup.string().required("Provide the Contract Doc")
         
     })
 
@@ -98,56 +117,64 @@ const NewDocument = ({ title }) => {
                                         <Grid container spacing={2}>
                                             <Grid item xs={12}>
                                                 <Typography variant="overline" className={classes.text}>
-                                                    Document's Information
+                                                    External Contract's Information
                                                 </Typography>
                                             </Grid>
                                             <Grid item xs={6} className={classes.strech}>
+                                                <TextField
+                                                    name="contract_no"
+                                                    label="Contract No"
+                                                    value={values.contract_no}
+                                                />
+                                            </Grid>  
+                                            <Grid item xs={6}>
                                                 <Select 
-                                                    name="employee" 
-                                                    label="Employee" 
-                                                    value={values.employee} 
-                                                    options={employees} />
+                                                    label="Type of Agent" 
+                                                    name="agent" 
+                                                    value={values.agent}
+                                                    options={typeagent} />
+                                            </Grid>  
+                                            <Grid item xs={6} className={classes.strech}>
+                                                <Select 
+                                                    name="agent" 
+                                                    label="Agent Name"
+                                                    value={values.member} 
+                                                    options={[...clients, ...suppliers]}
+                                                />
+                                            </Grid>
+                                            
+                                            <Grid item xs={6} className={classes.strech}>
+                                                <DateTimePicker 
+                                                    name="dateofcreation" 
+                                                    label="Date Of Creation"
+                                                    value={values.dateofcreation} 
+                                                     />
                                             </Grid>
                                             <Grid item xs={6}>
                                                 <TextField 
-                                                    name="numCni" 
-                                                    label="ID Card Number"
-                                                    value={values.numCni} 
-                                                 />
+                                                    name="duration" 
+                                                    label="Duration"
+                                                    value={values.duration}
+                                                     />
                                             </Grid>
-                                            <Grid item xs={6} className={classes.strech}>
-                                                <TextField  
-                                                    type="file"
-                                                    name="cniupload"
-                                                    value={values.cniupload} 
-                                                    label="ID Card" 
-                                                    accept="image/*" />
-                                            </Grid>
+                                            
                                             <Grid item xs={6} className={classes.strech}>
                                                 <TextField
-                                                    name="diploma"
-                                                    label="Diploma"
-                                                    value={values.diploma} 
+                                                    name="formofcontract"
+                                                    label="Form Of Contract"
+                                                    value={values.formofcontract}
                                                 />
                                             </Grid>  
                                             
                                             <Grid item xs={6} className={classes.strech}>
-                                            <Field
-                                                name="diplomaupload"
-                                                component={FileInput}
-                                                label="Diploma"
-                                                accept="image/*"
-                                            />  
-                                            </Grid>
-                                            <Grid item xs={6} className={classes.strech}>
                                                 <TextField 
                                                     type="file" 
-                                                    name="mariagecertificate" 
-                                                    value={values.mariagecertificate} 
+                                                    name="contractupload" 
+                                                    value={values.contractupload}
                                                     accept="image/*" />
                                             </Grid>
                                             
-                                            <Grid item>
+                                            <Grid item xs={12}>
                                                 <Button
                                                     disabled={isSubmitting}
                                                     type="submit"
@@ -171,4 +198,4 @@ const NewDocument = ({ title }) => {
     );
 };
 
-export default NewDocument;
+export default NewExternal;

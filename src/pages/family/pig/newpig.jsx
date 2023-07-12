@@ -7,13 +7,17 @@ import { Card, CardContent, Grid, Button, makeStyles, Typography } from '@materi
 import { Form, Formik, Field, FieldArray } from 'formik';
 import { CircularProgress } from "@mui/material";
 import * as Yup from "yup";
+import DateTimePicker from "../../../components/FormsUI/DateTimePicker";
+import moment from "moment";
 import TextField from "../../../components/FormsUI/Textfield";
+/* import { TextField } from "@material-ui/core"; */
 import Select from "../../../components/FormsUI/Select";
-import FileInput from "../../../components/FormsUI/FileInput";
-/*import { TextField, Select } from "@material-ui/core"; */
-import EmployeeAPI from "../../../services/hrm/EmployeeAPI";
+import Radio from "../../../components/FormsUI/RadioButton";
+import FamilyAPI from "../../../services/family/FamilyAPI";
+import LodgeAPI from "../../../services/family/LodgeAPI";
 
-const emptyInfoSup = { information: '', value: '' };
+
+const emptyInfoSup = { information: '', valeur: '' };
 const useStyles = makeStyles(theme => (
     {
         errorColor: {
@@ -28,21 +32,32 @@ const useStyles = makeStyles(theme => (
     }
 ));
 
-const NewDocument = ({ title }) => {
+const NewPig = ({ title }) => {
 
-    const [employees, setEmployee] = useState([]);
+    const [families, setFamily] = useState([]);
+    const [lodges, setLodge] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);
-          EmployeeAPI.getEmployees()
+        FamilyAPI.getFamilies()
           .then((res) => {
-            const employees = res.data.map(employee => (
-              <option key={employee.employeeIdId} value={employee.employeeId}>
-                {employee.firstname}
+            const families = res.data.map(family => (
+              <option key={family.familyId} value={family.familyId}>
+                {family.family_name}
               </option>
             ));
-            setEmployee(employees);
+            setFamily(families);
+            setLoading(false);
+          })
+          LodgeAPI.getLodges()
+          .then((res) => {
+            const lodges = res.data.map(lodge => (
+              <option key={lodge.lodgeId} value={lodge.lodgeId}>
+                {lodge.lodge_name}
+              </option>
+            ));
+            setLodge(lodges);
             setLoading(false);
           })
           .catch((error) => {
@@ -52,28 +67,36 @@ const NewDocument = ({ title }) => {
       }, []);
 
 
-
     const classes = useStyles();
 
     const INITIAL_FORM_STATE = {
-        employee: "",
-        numCni: "",
-        cniupload: "",
-        diploma: "",
-        diplomaupload: "",
-        mariagecertificate: ""
+        family: "",
+        lodge: "",
+        member_name: "",
+        birthdate: "",
+        gender: "",
+        mother: "",
+        father: "",
+        
     };
 
+    //options gender
+    const genre = [
+        { value: '0', label: 'MALE' },
+        { value: '1', label: 'FEMALE' }
+        
+    ];
+    
 
     const FORM_VALIDATION = Yup.object().shape({
-        employee: Yup.string().required("Select the employee"),
-        cniupload: Yup.string().required("Provide the ID Card"),
-        diplomaupload: Yup.string().required("Provide the Diploma"),
-        mariagecertificate: Yup.string().required("Provide the Mariage Certificate")
-        
+        family: Yup.string().required("Select the Family"),
+        lodge: Yup.string().required("Select the Lodge"),
+        member_name: Yup.string().required("Enter the Name").min(3, 'It should contain at least 3 letters'),
+        gender: Yup.string().required("Select the gender"),
+        mother: Yup.string().required("Select the mother")
     })
 
-
+    
     return (
         <div className="new">
             <Sidebar />
@@ -98,56 +121,60 @@ const NewDocument = ({ title }) => {
                                         <Grid container spacing={2}>
                                             <Grid item xs={12}>
                                                 <Typography variant="overline" className={classes.text}>
-                                                    Document's Information
+                                                   Employee's Informations
                                                 </Typography>
                                             </Grid>
                                             <Grid item xs={6} className={classes.strech}>
                                                 <Select 
-                                                    name="employee" 
-                                                    label="Employee" 
-                                                    value={values.employee} 
-                                                    options={employees} />
-                                            </Grid>
-                                            <Grid item xs={6}>
-                                                <TextField 
-                                                    name="numCni" 
-                                                    label="ID Card Number"
-                                                    value={values.numCni} 
-                                                 />
+                                                    name="family" 
+                                                    label="Family"
+                                                    value={values.family} 
+                                                    options={families}
+                                                />
                                             </Grid>
                                             <Grid item xs={6} className={classes.strech}>
-                                                <TextField  
-                                                    type="file"
-                                                    name="cniupload"
-                                                    value={values.cniupload} 
-                                                    label="ID Card" 
-                                                    accept="image/*" />
+                                                <Select 
+                                                    name="lodge" 
+                                                    label="Lodge" 
+                                                    value={values.lodge} 
+                                                    options={lodges} />
                                             </Grid>
                                             <Grid item xs={6} className={classes.strech}>
                                                 <TextField
-                                                    name="diploma"
-                                                    label="Diploma"
-                                                    value={values.diploma} 
+                                                    name="member_name"             
+                                                    label="Member Name"
+                                                    value={values.member_name} 
                                                 />
-                                            </Grid>  
-                                            
-                                            <Grid item xs={6} className={classes.strech}>
-                                            <Field
-                                                name="diplomaupload"
-                                                component={FileInput}
-                                                label="Diploma"
-                                                accept="image/*"
-                                            />  
                                             </Grid>
-                                            <Grid item xs={6} className={classes.strech}>
-                                                <TextField 
-                                                    type="file" 
-                                                    name="mariagecertificate" 
-                                                    value={values.mariagecertificate} 
-                                                    accept="image/*" />
+                                             
+                                            <Grid item xs={6}>
+                                                <DateTimePicker
+                                                    name="birthdate"
+                                                    label="Date of Birth"
+                                                    value={values.birthdate}
+                                                />
                                             </Grid>
                                             
-                                            <Grid item>
+                                            <Grid item xs={6} className={classes.strech}>
+                                                <TextField
+                                                    name="mother"             
+                                                    label="Mother"
+                                                    value={values.mother} 
+                                                />
+                                            </Grid> 
+                                            <Grid item xs={6} className={classes.strech}>
+                                                <TextField
+                                                    name="father"             
+                                                    label="Father"
+                                                    value={values.father} 
+                                                />
+                                            </Grid>
+
+                                            <Grid item xs={12}>
+                                                <Radio label="Gender" name="gender" value={values.gender} options={genre} />
+                                            </Grid> 
+                                            
+                                            <Grid item xs={16}>
                                                 <Button
                                                     disabled={isSubmitting}
                                                     type="submit"
@@ -155,7 +182,7 @@ const NewDocument = ({ title }) => {
                                                     color="primary"
                                                     startIcon={isSubmitting ? <CircularProgress size="1rem" /> : undefined}
                                                 >
-                                                    {isSubmitting ? 'Saving' : 'Save'}
+                                                    {isSubmitting ? 'Saving' : 'Saved'}
                                                 </Button>
                                             </Grid>
                                         </Grid>
@@ -171,4 +198,4 @@ const NewDocument = ({ title }) => {
     );
 };
 
-export default NewDocument;
+export default NewPig;

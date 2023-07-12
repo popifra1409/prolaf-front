@@ -8,12 +8,14 @@ import { Form, Formik, Field, FieldArray } from 'formik';
 import { CircularProgress } from "@mui/material";
 import * as Yup from "yup";
 import TextField from "../../../components/FormsUI/Textfield";
+/* import { TextField } from "@material-ui/core"; */
 import Select from "../../../components/FormsUI/Select";
-import FileInput from "../../../components/FormsUI/FileInput";
-/*import { TextField, Select } from "@material-ui/core"; */
-import EmployeeAPI from "../../../services/hrm/EmployeeAPI";
+import PigAPI from "../../../services/family/PigAPI";
+import FowlAPI from "../../../services/family/FowlAPI";
+import ParameterAPI from "../../../services/family/ParameterAPI";
 
-const emptyInfoSup = { information: '', value: '' };
+
+const emptyInfoSup = { information: '', valeur: '' };
 const useStyles = makeStyles(theme => (
     {
         errorColor: {
@@ -28,21 +30,43 @@ const useStyles = makeStyles(theme => (
     }
 ));
 
-const NewDocument = ({ title }) => {
+const NewParamRegistration = ({ title }) => {
 
-    const [employees, setEmployee] = useState([]);
+    const [pigs, setPig] = useState([]);
+    const [fowls, setFowl] = useState([]);
+    const [parameters, setParameter] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);
-          EmployeeAPI.getEmployees()
+        PigAPI.getPigs()
           .then((res) => {
-            const employees = res.data.map(employee => (
-              <option key={employee.employeeIdId} value={employee.employeeId}>
-                {employee.firstname}
+            const pigs = res.data.map(pig => (
+              <option key={pig.memberId} value={pig.memberId}>
+                {pig.member_name}
               </option>
             ));
-            setEmployee(employees);
+            setPig(pigs);
+            setLoading(false);
+          })
+          FowlAPI.getFowls()
+          .then((res) => {
+            const fowls = res.data.map(fowl => (
+              <option key={fowl.memberId} value={fowl.memberId}>
+                {fowl.member_name}
+              </option>
+            ));
+            setFowl(fowls);
+            setLoading(false);
+          })
+          ParameterAPI.getParameters()
+          .then((res) => {
+            const parameters = res.data.map(parameter => (
+              <option key={parameter.parameterId} value={parameter.parameterId}>
+                {parameter.name}
+              </option>
+            ));
+            setParameter(parameters);
             setLoading(false);
           })
           .catch((error) => {
@@ -52,28 +76,32 @@ const NewDocument = ({ title }) => {
       }, []);
 
 
-
     const classes = useStyles();
 
     const INITIAL_FORM_STATE = {
-        employee: "",
-        numCni: "",
-        cniupload: "",
-        diploma: "",
-        diplomaupload: "",
-        mariagecertificate: ""
+        member_choice: "",
+        member: "",
+        parameter: "",
+        value: ""
+        
     };
 
+    //options gender
+    const member = [
+        { value: 'pig', label: 'PIG' },
+        { value: 'fowl', label: 'FOWL' }
+        
+    ];
+    
 
     const FORM_VALIDATION = Yup.object().shape({
-        employee: Yup.string().required("Select the employee"),
-        cniupload: Yup.string().required("Provide the ID Card"),
-        diplomaupload: Yup.string().required("Provide the Diploma"),
-        mariagecertificate: Yup.string().required("Provide the Mariage Certificate")
-        
+        member_choice: Yup.string().required("Select the Type of Member"),
+        member: Yup.string().required("Select the Member"),
+        parameter: Yup.string().required("Select the parameter"),
+        value: Yup.string().required("Enter the value")
     })
 
-
+    
     return (
         <div className="new">
             <Sidebar />
@@ -98,56 +126,42 @@ const NewDocument = ({ title }) => {
                                         <Grid container spacing={2}>
                                             <Grid item xs={12}>
                                                 <Typography variant="overline" className={classes.text}>
-                                                    Document's Information
+                                                   Parameter Registration's Informations
                                                 </Typography>
                                             </Grid>
+                                            <Grid item xs={6} >
+                                                <Select
+                                                    name="typeofemployee"             
+                                                    label="Type Of Member"
+                                                    value={values.member_choice} 
+                                                    options={member}
+                                                />
+                                            </Grid> 
                                             <Grid item xs={6} className={classes.strech}>
                                                 <Select 
-                                                    name="employee" 
-                                                    label="Employee" 
-                                                    value={values.employee} 
-                                                    options={employees} />
+                                                    name="member" 
+                                                    label="Member"
+                                                    value={values.member} 
+                                                    options={[...pigs, ...fowls]}
+                                                />
                                             </Grid>
-                                            <Grid item xs={6}>
-                                                <TextField 
-                                                    name="numCni" 
-                                                    label="ID Card Number"
-                                                    value={values.numCni} 
-                                                 />
-                                            </Grid>
-                                            <Grid item xs={6} className={classes.strech}>
-                                                <TextField  
-                                                    type="file"
-                                                    name="cniupload"
-                                                    value={values.cniupload} 
-                                                    label="ID Card" 
-                                                    accept="image/*" />
-                                            </Grid>
+                                            <Grid item xs={6} >
+                                                <Select
+                                                    name="parameter"             
+                                                    label="Parameter"
+                                                    value={values.parameter} 
+                                                    options={parameters}
+                                                />
+                                            </Grid> 
                                             <Grid item xs={6} className={classes.strech}>
                                                 <TextField
-                                                    name="diploma"
-                                                    label="Diploma"
-                                                    value={values.diploma} 
+                                                    name="value"             
+                                                    label="Value"
+                                                    value={values.value} 
                                                 />
-                                            </Grid>  
-                                            
-                                            <Grid item xs={6} className={classes.strech}>
-                                            <Field
-                                                name="diplomaupload"
-                                                component={FileInput}
-                                                label="Diploma"
-                                                accept="image/*"
-                                            />  
-                                            </Grid>
-                                            <Grid item xs={6} className={classes.strech}>
-                                                <TextField 
-                                                    type="file" 
-                                                    name="mariagecertificate" 
-                                                    value={values.mariagecertificate} 
-                                                    accept="image/*" />
                                             </Grid>
                                             
-                                            <Grid item>
+                                            <Grid >
                                                 <Button
                                                     disabled={isSubmitting}
                                                     type="submit"
@@ -155,7 +169,7 @@ const NewDocument = ({ title }) => {
                                                     color="primary"
                                                     startIcon={isSubmitting ? <CircularProgress size="1rem" /> : undefined}
                                                 >
-                                                    {isSubmitting ? 'Saving' : 'Save'}
+                                                    {isSubmitting ? 'Saving' : 'Saved'}
                                                 </Button>
                                             </Grid>
                                         </Grid>
@@ -171,4 +185,4 @@ const NewDocument = ({ title }) => {
     );
 };
 
-export default NewDocument;
+export default NewParamRegistration;

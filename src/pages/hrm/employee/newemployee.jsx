@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import DateTimePicker from "../../../components/FormsUI/DateTimePicker";
 import moment from "moment";
 import TextField from "../../../components/FormsUI/Textfield";
-/* import { TextField } from "@material-ui/core"; */
+import { Checkbox } from "@material-ui/core";
 import Select from "../../../components/FormsUI/Select";
 import Radio from "../../../components/FormsUI/RadioButton";
 import DepartmentAPI from "../../../services/hrm/DepartmentAPI";
@@ -34,19 +34,36 @@ const useStyles = makeStyles(theme => (
 
 const NewEmployee = ({ title }) => {
 
-    const [department, setDepartment] = useState([]);
-    const [employee, setEmployee] = useState([]);
+    const [departments, setDepartment] = useState([]);
+    const [employees, setEmployee] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);
-        DepartmentAPI.getDepartments().then((res) => {
-          console.log(setDepartment(res.data));
-        });
-        EmployeeAPI.getEmployees().then((res) => {
-            console.log(setEmployee(res.data));
+        DepartmentAPI.getDepartments()
+          .then((res) => {
+            const departments = res.data.map(department => (
+              <option key={department.departmentId} value={department.departmentId}>
+                {department.dept_name}
+              </option>
+            ));
+            setDepartment(departments);
+            setLoading(false);
+          })
+          EmployeeAPI.getEmployees()
+          .then((res) => {
+            const employees = res.data.map(employee => (
+              <option key={employee.employeeIdId} value={employee.employeeId}>
+                {employee.firstname}
+              </option>
+            ));
+            setEmployee(employees);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error(error);
+            setLoading(false);
           });
-        setLoading(false);
       }, []);
 
 
@@ -83,11 +100,6 @@ const NewEmployee = ({ title }) => {
         { value: '0', label: 'MALE' },
         { value: '1', label: 'FEMALE' },
         { value: '2', label: 'NONE PRECISE' },
-    ];
-    const ihod = [
-        { value: '0', label: 'NO' },
-        { value: '1', label: 'YES' }
-        
     ];
     const employeechoice = [
         { value: 'supervisor', label: 'SUPERVISOR' },
@@ -139,30 +151,31 @@ const NewEmployee = ({ title }) => {
                                             </Grid>
                                             <Grid item xs={4} className={classes.strech}>
                                                 <Select 
-                                                    name="dept_parent" 
-                                                    label="Department Parent" 
-                                                    options={department.map(departments => (
-                                                        <option key={departments.departmentId} value={departments.dept_name}>{departments.dept_name}</option>
-                                                ))} />
+                                                    name="department" 
+                                                    label="Department Parent"
+                                                    value={values.department} 
+                                                    options={departments}
+                                                />
                                             </Grid>
                                             <Grid item xs={4} className={classes.strech}>
                                                 <Select 
                                                     name="supervisor" 
                                                     label="Supervisor" 
-                                                    options={employee.map(employees => (
-                                                        <option key={employees.employeeId} value={employees.firstname}>{employees.firstname}</option>
-                                                ))} />
+                                                    value={values.supervisor} 
+                                                    options={employees} />
                                             </Grid>
                                             <Grid item xs={4} className={classes.strech}>
                                                 <TextField
                                                     name="firstname"             
                                                     label="First Name"
+                                                    value={values.firstname} 
                                                 />
                                             </Grid>
                                             <Grid item xs={4} className={classes.strech}>
                                                 <TextField
                                                     name="lastname"             
                                                     label="Last Name"
+                                                    value={values.lastname} 
                                                 />
                                             </Grid>
                                             <Grid item xs={4}>
@@ -176,27 +189,31 @@ const NewEmployee = ({ title }) => {
                                                 <TextField
                                                     name="birthplace"             
                                                     label="Place of Birth"
+                                                    value={values.birthplace} 
                                                 />
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <Radio label="Gender" name="gender" options={genre} />
+                                                <Radio label="Gender" name="gender" value={values.gender} options={genre} />
                                             </Grid>  
                                             <Grid item xs={4} className={classes.strech}>
                                                 <TextField
                                                     name="status"             
                                                     label="Status"
+                                                    value={values.status} 
                                                 />
                                             </Grid>
                                             <Grid item xs={4} className={classes.strech}>
-                                                <TextField
-                                                    name="photo"             
-                                                    label="Picture"
-                                                />
+                                                <TextField 
+                                                    type="file" 
+                                                    name="photo" 
+                                                    value={values.photo} 
+                                                    accept="image/*" />
                                             </Grid>
                                             <Grid item xs={4} className={classes.strech}>
                                                 <TextField
                                                     name="function"             
                                                     label="Function"
+                                                    value={values.function} 
                                                 />
                                             </Grid>
                                             <Grid item xs={4}>
@@ -210,53 +227,60 @@ const NewEmployee = ({ title }) => {
                                                 <TextField
                                                     name="seniority"             
                                                     label="Seniority"
+                                                    value={values.seniority} 
                                                 />
                                             </Grid>        
                                             <Grid item xs={4} className={classes.strech}>
                                                 <TextField
                                                     name="salary"             
                                                     label="Salary"
+                                                    value={values.salary} 
                                                 />
-                                            </Grid>
-                                            <Grid item xs={4} className={classes.strech}>
-                                                <Radio label="Is Head Of Department" name="isheadofdepartment" options={ihod} />
                                             </Grid>   
-                                            <Grid item xs={4} className={classes.strech}>
+                                            <Grid item xs={4} >
                                                 <Select
                                                     name="typeofemployee"             
                                                     label="Type Of Employee"
+                                                    value={values.typeofemployee} 
                                                     options={employeechoice}
                                                 />
                                             </Grid> 
-                                                      
+                                             
                                             <Grid item xs={12}>
                                                 <Typography variant="overline" className={classes.text}>
                                                     Employee's Contact Form
                                                 </Typography>
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <TextField name="phone" label="Phone Number" />
+                                                <TextField name="phone" label="Phone Number" value={values.phone}  />
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <TextField name="whatsapnumber" label="Whatsapp Number" />
+                                                <TextField name="whatsappnumber" label="Whatsapp Number" value={values.whatsappnumber}  />
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <TextField name="facebooklink" label="Facebook Link" />
+                                                <TextField name="facebooklink" label="Facebook Link" value={values.facebooklink}  />
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <TextField name="resourcename" label="Resource Name" />
+                                                <TextField name="resourcename" label="Resource Name" value={values.resourcename}  />
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <TextField name="resourcecontact" label="Resource Contact" />
+                                                <TextField name="resourcecontact" label="Resource Contact" value={values.resourcecontact}  />
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <TextField name="adresse" label="Adresse" />
+                                                <TextField name="adresse" label="Adresse" value={values.adresse}  />
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <TextField name="email" label="Email" />
+                                                <TextField name="email" label="Email" value={values.email} />
                                             </Grid>
-                                            
-                                            <Grid item>
+                                            <Grid item xs={12} className={classes.strech}>
+                                                <Checkbox 
+                                                    name="isChiefOfDepartment" 
+                                                    value={values.isChiefOfDepartment} 
+                                                     />
+                                                     Is Chief Of Department
+                                            </Grid>
+                                            </Grid>  
+                                            <Grid item xs={6}>
                                                 <Button
                                                     disabled={isSubmitting}
                                                     type="submit"
@@ -267,7 +291,7 @@ const NewEmployee = ({ title }) => {
                                                     {isSubmitting ? 'Saving' : 'Saved'}
                                                 </Button>
                                             </Grid>
-                                        </Grid>
+                                        
                                         
                                     </Form>
                                 )}

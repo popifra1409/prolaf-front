@@ -4,7 +4,7 @@ import Navbar from "../../../components/navbar/Navbar";
 import Chart from "../../../components/chart/Chart";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import LodgeRegistrationAPI from "../../../services/family/LodgeRegistrationPI";
+import LodgeRegistrationAPI from "../../../services/family/LodgeRegistrationAPI";
 import { Link } from "react-router-dom";
 
 

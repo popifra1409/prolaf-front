@@ -47,7 +47,7 @@ const FamilyDatatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         FAMILY MANAGEMENT
-        <Link to="/identification/families/newFamily"  className="link">
+        <Link to="/family/families/newFamily"  className="link">
           NEW
         </Link>
       </div>

@@ -47,7 +47,7 @@ const ParamRegistrationDatatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         PARAMETER REGISTRATION MANAGEMENT
-        <Link to="/identification/paramRegistrations/newparamRegistration"  className="link">
+        <Link to="/family/paramRegistrations/newparamRegistration"  className="link">
           NEW
         </Link>
       </div>

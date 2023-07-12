@@ -47,7 +47,7 @@ const ClientDatatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         CLIENT MANAGEMENT
-        <Link to="/identification/clients/newclient"  className="link">
+        <Link to="/hrm/clients/newclient"  className="link">
           NEW
         </Link>
       </div>

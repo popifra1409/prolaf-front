@@ -47,7 +47,7 @@ const InternalDatatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         INTERNAL CONTRACT MANAGEMENT
-        <Link to="/identification/internals/newinternal"  className="link">
+        <Link to="/hrm/internals/newinternal"  className="link">
           NEW
         </Link>
       </div>

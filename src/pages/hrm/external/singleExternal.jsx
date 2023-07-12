@@ -34,10 +34,8 @@ const SingleExternal = () => {
                 duration: pat.duration,
                 formofcontract: pat.formofcontract,
                 contractupload: pat.contractupload,
-                agent: pat.agent,
-                client: pat.client,
-                Supplier: pat.supplier
-
+                agenttype: pat.agenttype,
+                agentname: pat.agentname
 
             });
 
@@ -68,16 +66,12 @@ const SingleExternal = () => {
                                     <span className="itemValue">{external.contract_no}</span>
                                 </div>
                                 <div className="detailItem">
-                                    <span className="itemKey">Agent:</span>
-                                    <span className="itemValue">{external.agent}</span>
+                                    <span className="itemKey">Type of Agent:</span>
+                                    <span className="itemValue">{external.agenttype}</span>
                                 </div>
                                 <div className="detailItem">
-                                    <span className="itemKey">Client:</span>
-                                    <span className="itemValue">{external.client}</span>
-                                </div>
-                                <div className="detailItem">
-                                    <span className="itemKey">Supplier:</span>
-                                    <span className="itemValue">{external.supplier}</span>
+                                    <span className="itemKey">Agent Name:</span>
+                                    <span className="itemValue">{external.agentname}</span>
                                 </div>
                                 <div className="detailItem">
                                     <span className="itemKey">Date Of Creation:</span>

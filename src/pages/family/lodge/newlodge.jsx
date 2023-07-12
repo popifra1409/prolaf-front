@@ -9,11 +9,10 @@ import { CircularProgress } from "@mui/material";
 import * as Yup from "yup";
 import TextField from "../../../components/FormsUI/Textfield";
 import Select from "../../../components/FormsUI/Select";
-import FileInput from "../../../components/FormsUI/FileInput";
-/*import { TextField, Select } from "@material-ui/core"; */
-import EmployeeAPI from "../../../services/hrm/EmployeeAPI";
+import BuildingAPI from "../../../services/family/BuildingAPI";
 
-const emptyInfoSup = { information: '', value: '' };
+
+const emptyInfoSup = { information: '', valeur: '' };
 const useStyles = makeStyles(theme => (
     {
         errorColor: {
@@ -28,21 +27,21 @@ const useStyles = makeStyles(theme => (
     }
 ));
 
-const NewDocument = ({ title }) => {
+const NewLodge = ({ title }) => {
 
-    const [employees, setEmployee] = useState([]);
+    const [buildings, setBuilding] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);
-          EmployeeAPI.getEmployees()
+        BuildingAPI.getBuildings()
           .then((res) => {
-            const employees = res.data.map(employee => (
-              <option key={employee.employeeIdId} value={employee.employeeId}>
-                {employee.firstname}
+            const buildings = res.data.map(building => (
+              <option key={building.buildingId} value={building.buildingId}>
+                {building.building_name}
               </option>
             ));
-            setEmployee(employees);
+            setBuilding(buildings);
             setLoading(false);
           })
           .catch((error) => {
@@ -50,26 +49,23 @@ const NewDocument = ({ title }) => {
             setLoading(false);
           });
       }, []);
-
-
-
+    
     const classes = useStyles();
 
     const INITIAL_FORM_STATE = {
-        employee: "",
-        numCni: "",
-        cniupload: "",
-        diploma: "",
-        diplomaupload: "",
-        mariagecertificate: ""
+        building: "",
+        lodge_name: "",
+        lodge_description: "",
+        capacity: ""
+
     };
 
 
     const FORM_VALIDATION = Yup.object().shape({
-        employee: Yup.string().required("Select the employee"),
-        cniupload: Yup.string().required("Provide the ID Card"),
-        diplomaupload: Yup.string().required("Provide the Diploma"),
-        mariagecertificate: Yup.string().required("Provide the Mariage Certificate")
+        building: Yup.string().required("Select the Building Name"),
+        lodge_name: Yup.string().required("Enter the Lodge name"),
+        capacity: Yup.number().required("Enter the Capacity")
+        
         
     })
 
@@ -98,54 +94,39 @@ const NewDocument = ({ title }) => {
                                         <Grid container spacing={2}>
                                             <Grid item xs={12}>
                                                 <Typography variant="overline" className={classes.text}>
-                                                    Document's Information
+                                                    Lodge's Information
                                                 </Typography>
                                             </Grid>
+
                                             <Grid item xs={6} className={classes.strech}>
                                                 <Select 
-                                                    name="employee" 
-                                                    label="Employee" 
-                                                    value={values.employee} 
-                                                    options={employees} />
+                                                    name="building" 
+                                                    label="Building Parent" 
+                                                    options={buildings}
+                                                />
                                             </Grid>
-                                            <Grid item xs={6}>
-                                                <TextField 
-                                                    name="numCni" 
-                                                    label="ID Card Number"
-                                                    value={values.numCni} 
-                                                 />
-                                            </Grid>
+                                            
                                             <Grid item xs={6} className={classes.strech}>
-                                                <TextField  
-                                                    type="file"
-                                                    name="cniupload"
-                                                    value={values.cniupload} 
-                                                    label="ID Card" 
-                                                    accept="image/*" />
+                                                <TextField
+                                                    name="lodge_name"
+                                                    value={values.lodge_name}
+                                                    label="Lodge Name"
+                                                />
                                             </Grid>
                                             <Grid item xs={6} className={classes.strech}>
                                                 <TextField
-                                                    name="diploma"
-                                                    label="Diploma"
-                                                    value={values.diploma} 
+                                                    name="lodge_description"
+                                                    value={values.lodge_description}
+                                                    label="Description"
                                                 />
                                             </Grid>  
-                                            
                                             <Grid item xs={6} className={classes.strech}>
-                                            <Field
-                                                name="diplomaupload"
-                                                component={FileInput}
-                                                label="Diploma"
-                                                accept="image/*"
-                                            />  
-                                            </Grid>
-                                            <Grid item xs={6} className={classes.strech}>
-                                                <TextField 
-                                                    type="file" 
-                                                    name="mariagecertificate" 
-                                                    value={values.mariagecertificate} 
-                                                    accept="image/*" />
-                                            </Grid>
+                                                <TextField
+                                                    name="capacity"
+                                                    value={values.capacity}
+                                                    label="Capacity"
+                                                />
+                                            </Grid>    
                                             
                                             <Grid item>
                                                 <Button
@@ -171,4 +152,4 @@ const NewDocument = ({ title }) => {
     );
 };
 
-export default NewDocument;
+export default NewLodge;

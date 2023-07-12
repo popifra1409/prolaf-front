@@ -47,7 +47,7 @@ const DocumentDatatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         DOCUMENT MANAGEMENT
-        <Link to="/identification/documents/newdocument"  className="link">
+        <Link to="/hrm/documents/newdocument"  className="link">
           NEW
         </Link>
       </div>

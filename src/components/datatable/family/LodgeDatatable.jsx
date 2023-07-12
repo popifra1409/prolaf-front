@@ -47,7 +47,7 @@ const LodgeDatatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         LODGE MANAGEMENT
-        <Link to="/identification/lodges/newLodge"  className="link">
+        <Link to="/family/lodges/newLodge"  className="link">
           NEW
         </Link>
       </div>

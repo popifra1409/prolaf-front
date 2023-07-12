@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const Department_API_BASE_URL = "http://localhost:8000/hrm/departments/";
 
 class DepartmentAPI {
@@ -14,8 +15,14 @@ class DepartmentAPI {
     };
 
     //create a department
-    addDepartment = async(department) =>{
-        return await axios.post(Department_API_BASE_URL + "save",  department);
+    addDepartment = async(department,parentid) =>{
+        return await axios.post(Department_API_BASE_URL + parentid + "/create/", department );
+    };
+
+
+    //update a department
+    updateDepartment = async(department, parentid) =>{
+        return await axios.put(Department_API_BASE_URL + parentid + "/update/", department );
     };
 }
 

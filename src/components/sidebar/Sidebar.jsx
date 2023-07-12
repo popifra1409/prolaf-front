@@ -65,25 +65,12 @@ const Sidebar = () => {
               <span>Documents</span>
             </li>
           </Link>
-          <div>
-      
-    </div>
-            
-        <li> 
-          <div
-             className="sidebar-item"
-              onMouseEnter={() => setShowAgentsSubitems(true)}
-              onMouseLeave={() => setShowAgentsSubitems(false)}>       
-              <PersonAddAltIcon className="icon" />
-              <span>Agents</span>  
-               {showAgentsSubitems && (
-                <div className="subitems">
-                    <li><Link to="/hrm/clients" style={{ textDecoration: "none" }}><li><PersonOutlineIcon className="icon" />Clients</li></Link></li>
-                    <li><Link to="/hrm/suppliers" style={{ textDecoration: "none" }}><li><PersonOutlineIcon className="icon" />Suppliers</li></Link></li>
-                </div>
-            )}
-          </div>
-        </li>      
+          <Link to="/hrm/agents" style={{ textDecoration: "none" }}>
+            <li>
+            <PersonAddAltIcon className="icon" />
+              <span>Agents</span>
+            </li>
+          </Link>
 
         <li> 
           <div
@@ -99,7 +86,10 @@ const Sidebar = () => {
                 </div>
             )}
           </div>
-        </li>
+        </li>  
+      
+   
+            
 
         <p className="title">Birth Monitoring</p>
         <Link to="/family/buildings" style={{ textDecoration: "none" }}>
@@ -108,16 +98,16 @@ const Sidebar = () => {
               <span>Buildings</span>
             </li>
           </Link>
-          <Link to="/family/lodges" style={{ textDecoration: "none" }}>
-            <li>
-              < StoreIcon className="icon" />
-              <span>Lodges</span>
-            </li>
-          </Link>
           <Link to="/family/families" style={{ textDecoration: "none" }}>
             <li>
               <FamilyRestroomIcon className="icon" />
               <span>Families</span>
+            </li>
+          </Link>
+          <Link to="/family/lodges" style={{ textDecoration: "none" }}>
+            <li>
+              < StoreIcon className="icon" />
+              <span>Lodges</span>
             </li>
           </Link>
           <li> 
@@ -129,8 +119,8 @@ const Sidebar = () => {
               <span>Members</span>  
                {showMembersSubitems && (
                 <div className="subitems">
-                    <li><Link to="/family/pigs" style={{ textDecoration: "none" }}>Pigs</Link></li>
-                    <li><Link to="/family/fowls" style={{ textDecoration: "none" }}>Fowl</Link></li>
+                    <li><Link to="/family/pigs" style={{ textDecoration: "none" }}><li><PersonOutlineIcon className="icon" /> Pigs</li></Link></li>
+                    <li><Link to="/family/fowls" style={{ textDecoration: "none" }}><li><PersonOutlineIcon className="icon" /> Fowls</li></Link></li>
                 </div>
             )}
           </div>
@@ -147,7 +137,7 @@ const Sidebar = () => {
               <span>Parameters Registration</span>
             </li>
           </Link>
-          <Link to="/family/lodge_Registrations" style={{ textDecoration: "none" }}>
+          <Link to="/family/lodgeRegistrations" style={{ textDecoration: "none" }}>
             <li>
               <AddBusinessIcon className="icon" />
               <span>Lodges Registration</span>

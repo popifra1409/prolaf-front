@@ -4,15 +4,14 @@ import Sidebar from '../../../components/sidebar/Sidebar';
 import Navbar from '../../../components/navbar/Navbar';
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Grid, Button, makeStyles, Typography } from '@material-ui/core';
-import { Form, Formik, Field, FieldArray } from 'formik';
+import { Form, Formik } from 'formik';
 import { CircularProgress } from "@mui/material";
 import * as Yup from "yup";
 import TextField from "../../../components/FormsUI/Textfield";
 import Select from "../../../components/FormsUI/Select";
-/*import { TextField, Select } from "@material-ui/core"; */
+//import { Select } from "@material-ui/core"; 
 import DepartmentAPI from "../../../services/hrm/DepartmentAPI";
 
-const emptyInfoSup = { information: '', valeur: '' };
 const useStyles = makeStyles(theme => (
     {
         errorColor: {
@@ -29,18 +28,26 @@ const useStyles = makeStyles(theme => (
 
 const NewDepartment = ({ title }) => {
 
-    const [department, setDepartment] = useState([]);
+    const [departments, setDepartment] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);
-        DepartmentAPI.getDepartments().then((res) => {
-          console.log(setDepartment(res.data));
-        });
-        setLoading(false);
+        DepartmentAPI.getDepartments()
+          .then((res) => {
+             const departments = res.data.map((department) => (
+                {value: department.departmentId,
+                 label: department.dept_name}
+            )); 
+            setDepartment(departments);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error(error);
+            setLoading(false);
+          });
       }, []);
-
-
+    
     const classes = useStyles();
 
     const INITIAL_FORM_STATE = {
@@ -52,13 +59,18 @@ const NewDepartment = ({ title }) => {
 
 
     const FORM_VALIDATION = Yup.object().shape({
-        dept_parent: Yup.string().required("Enter the department parent").min(3, 'It should contain al least 3 letters'),
+        dept_parent: Yup.string().required("Enter the department parent"),
         dept_name: Yup.string().required("Enter the department name").min(3, 'It should contain al least 3 letters'),
         dept_description: Yup.string().required("Enter the department description"),
         dept_number: Yup.number().integer().typeError('Invalid Phone number').required('Enter the phone number').min(9, 'Should contain 9 figures'),
         
     })
-
+    const handleSubmit = async (values, parentid) => {
+        parentid = values.dept_parent
+        await DepartmentAPI.addDepartment(values, parentid).then((response)=> {
+            console.log("Data" + response.data);
+        })
+    };
 
     return (
         <div className="new">
@@ -74,10 +86,7 @@ const NewDepartment = ({ title }) => {
                             <Formik
                                 initialValues={{ ...INITIAL_FORM_STATE }}
                                 validationSchema={FORM_VALIDATION}
-                                onSubmit={async (values) => {
-                                    console.log('My data:', values)
-                                    return new Promise(res => setTimeout(res, 2500));
-                                }}
+                                onSubmit={handleSubmit}
                             >
                                 {({ values, errors, isSubmitting }) => (
                                     <Form autoComplete="off">
@@ -88,27 +97,40 @@ const NewDepartment = ({ title }) => {
                                                 </Typography>
                                             </Grid>
                                             <Grid item xs={6} className={classes.strech}>
+                                                
                                                 <Select 
                                                     name="dept_parent" 
-                                                    label="Department Parent" 
-                                                    options={department.map(departments => (
-                                                        <option key={departments.departmentId} value={departments.dept_name}>{departments.dept_name}</option>
-                                                ))} />
+                                                    label="Department Parent"
+                                                    options = {departments} 
+                                                    />
+                                                        
+                                                    {/* {departments.map((department) => (
+                                                        <option key={department.departmentId} value={department.departmentId} name={department.dept_parent}>
+                                                          {department.dept_name}
+                                                        </option>
+                                                      ))} 
+                                                    
+                                                </Select>*/} 
                                             </Grid>
                                             <Grid item xs={6} className={classes.strech}>
                                                 <TextField
                                                     name="dept_name"
+                                                    value={values.dept_name}
                                                     label="Department Name"
                                                 />
                                             </Grid>
                                             <Grid item xs={6} className={classes.strech}>
                                                 <TextField
                                                     name="dept_description"
+                                                    value={values.dept_description}
                                                     label="Description"
                                                 />
                                             </Grid>    
                                             <Grid item xs={6}>
-                                                <TextField name="dept_number" label="Contact (Phone N°)" />
+                                                <TextField 
+                                                    name="dept_number" 
+                                                    value={values.dept_number}
+                                                    label="Contact (Phone N°)" />
                                             </Grid>
                                             
                                             <Grid item>
