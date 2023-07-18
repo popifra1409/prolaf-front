@@ -15,7 +15,7 @@ class LodgeRegistrationAPI {
 
     //create a lodgeRegistration
     addLodgeRegistration = async(lodgeRegistration) =>{
-        return await axios.post(LodgeRegistration_API_BASE_URL + "save",  lodgeRegistration);
+        return await axios.post(LodgeRegistration_API_BASE_URL,  lodgeRegistration);
     };
 }
 

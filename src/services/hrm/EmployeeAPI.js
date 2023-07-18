@@ -14,8 +14,8 @@ class EmployeeAPI {
     };
 
     //create a employee
-    addEmployee = async(employee) =>{
-        return await axios.post(Employee_API_BASE_URL + "save",  employee);
+    addEmployee = async(employee, supid, departmentid) =>{
+        return await axios.post(Employee_API_BASE_URL + supid + "/" + departmentid + "/create/", employee );
     };
 }
 

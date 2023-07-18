@@ -4,7 +4,7 @@ import Sidebar from '../../../components/sidebar/Sidebar';
 import Navbar from '../../../components/navbar/Navbar';
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Grid, Button, makeStyles, Typography } from '@material-ui/core';
-import { Form, Formik, Field, FieldArray } from 'formik';
+import { Form, Formik } from 'formik';
 import { CircularProgress } from "@mui/material";
 import * as Yup from "yup";
 import TextField from "../../../components/FormsUI/Textfield";
@@ -13,9 +13,9 @@ import Select from "../../../components/FormsUI/Select";
 import PigAPI from "../../../services/family/PigAPI";
 import FowlAPI from "../../../services/family/FowlAPI";
 import ParameterAPI from "../../../services/family/ParameterAPI";
+import ParamRegistrationAPI from "../../../services/family/ParamRegistrationAPI";
 
 
-const emptyInfoSup = { information: '', valeur: '' };
 const useStyles = makeStyles(theme => (
     {
         errorColor: {
@@ -42,9 +42,8 @@ const NewParamRegistration = ({ title }) => {
         PigAPI.getPigs()
           .then((res) => {
             const pigs = res.data.map(pig => (
-              <option key={pig.memberId} value={pig.memberId}>
-                {pig.member_name}
-              </option>
+                {value: pig.memberId,
+                label: pig.member_name}
             ));
             setPig(pigs);
             setLoading(false);
@@ -52,9 +51,8 @@ const NewParamRegistration = ({ title }) => {
           FowlAPI.getFowls()
           .then((res) => {
             const fowls = res.data.map(fowl => (
-              <option key={fowl.memberId} value={fowl.memberId}>
-                {fowl.member_name}
-              </option>
+                {value: fowl.memberId,
+                    label: fowl.member_name}
             ));
             setFowl(fowls);
             setLoading(false);
@@ -62,9 +60,8 @@ const NewParamRegistration = ({ title }) => {
           ParameterAPI.getParameters()
           .then((res) => {
             const parameters = res.data.map(parameter => (
-              <option key={parameter.parameterId} value={parameter.parameterId}>
-                {parameter.name}
-              </option>
+                {value: parameter.parameterId,
+                    label: parameter.name}
             ));
             setParameter(parameters);
             setLoading(false);
@@ -88,18 +85,25 @@ const NewParamRegistration = ({ title }) => {
 
     //options gender
     const member = [
-        { value: 'pig', label: 'PIG' },
-        { value: 'fowl', label: 'FOWL' }
+        { value: 'Pig', label: 'PIG' },
+        { value: 'Fowl', label: 'FOWL' }
         
     ];
     
 
-    const FORM_VALIDATION = Yup.object().shape({
+    /*const FORM_VALIDATION = Yup.object().shape({
         member_choice: Yup.string().required("Select the Type of Member"),
         member: Yup.string().required("Select the Member"),
         parameter: Yup.string().required("Select the parameter"),
         value: Yup.string().required("Enter the value")
-    })
+    })*/
+
+    const handleSubmit = async (values, nameid) => {
+        nameid = values.parameter
+        await ParamRegistrationAPI.addParamRegistration(values, nameid).then((response)=> {
+            console.log("Data" + response.data);
+        })
+    };
 
     
     return (
@@ -115,11 +119,8 @@ const NewParamRegistration = ({ title }) => {
                         <CardContent>
                             <Formik
                                 initialValues={{ ...INITIAL_FORM_STATE }}
-                                validationSchema={FORM_VALIDATION}
-                                onSubmit={async (values) => {
-                                    console.log('My data:', values)
-                                    return new Promise(res => setTimeout(res, 2500));
-                                }}
+                                //validationSchema={FORM_VALIDATION}
+                                onSubmit={handleSubmit}
                             >
                                 {({ values, errors, isSubmitting }) => (
                                     <Form autoComplete="off">
@@ -132,8 +133,7 @@ const NewParamRegistration = ({ title }) => {
                                             <Grid item xs={6} >
                                                 <Select
                                                     name="typeofemployee"             
-                                                    label="Type Of Member"
-                                                    value={values.member_choice} 
+                                                    //label="Type Of Member"
                                                     options={member}
                                                 />
                                             </Grid> 
@@ -141,15 +141,13 @@ const NewParamRegistration = ({ title }) => {
                                                 <Select 
                                                     name="member" 
                                                     label="Member"
-                                                    value={values.member} 
                                                     options={[...pigs, ...fowls]}
                                                 />
                                             </Grid>
                                             <Grid item xs={6} >
                                                 <Select
                                                     name="parameter"             
-                                                    label="Parameter"
-                                                    value={values.parameter} 
+                                                    label="Parameter" 
                                                     options={parameters}
                                                 />
                                             </Grid> 
@@ -169,7 +167,7 @@ const NewParamRegistration = ({ title }) => {
                                                     color="primary"
                                                     startIcon={isSubmitting ? <CircularProgress size="1rem" /> : undefined}
                                                 >
-                                                    {isSubmitting ? 'Saving' : 'Saved'}
+                                                    {isSubmitting ? 'Saving' : 'Save'}
                                                 </Button>
                                             </Grid>
                                         </Grid>

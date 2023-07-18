@@ -47,6 +47,8 @@ import NewParameter from "./pages/family/parameter/newparameter";
 import NewParamRegistration from "./pages/family/paramRegistration/newparamregistration";
 import NewLodgeRegistration from "./pages/family/lodgeRegistration/newlodgeregistration";
 import UpdateDepartment from "./pages/hrm/department/updatedepartment";
+import LoginPage from "./pages/loginform/login";
+
 
 
 function App() {
@@ -190,6 +192,11 @@ function App() {
             </Route> 
 
           </Route>
+          
+          <Route path="login">
+              <Route index element={<LoginPage />} />
+              
+            </Route> 
      
         </Routes>
       </BrowserRouter>

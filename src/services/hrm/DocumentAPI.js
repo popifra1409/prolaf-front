@@ -14,9 +14,10 @@ class DocumentAPI {
     };
 
     //create a document
-    addDocument = async(document) =>{
-        return await axios.post(Document_API_BASE_URL + "save",  document);
+    addDocument = async(document, employeeid) =>{
+        return await axios.post(Document_API_BASE_URL + employeeid + "/create/", document );
     };
+
 }
 
 export default new DocumentAPI()

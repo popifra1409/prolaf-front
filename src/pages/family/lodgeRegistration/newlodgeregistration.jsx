@@ -12,6 +12,7 @@ import moment from "moment";
 import TextField from "../../../components/FormsUI/Textfield";
 import { Checkbox } from "@material-ui/core";
 import Select from "../../../components/FormsUI/Select";
+import LodgeRegistrationAPI from "../../../services/family/LodgeRegistrationAPI";
 import LodgeAPI from "../../../services/family/LodgeAPI";
 
 
@@ -76,6 +77,11 @@ const NewLodgeRegistration = ({ title }) => {
         weight: Yup.string().required("Enter the weight")
     })
 
+    const handleSubmit = async (values) => {
+        await LodgeRegistrationAPI.addLodgeRegistration(values).then((response)=> {
+            console.log("Data" + response.data);
+        })
+    };
     
     return (
         <div className="new">
@@ -91,10 +97,7 @@ const NewLodgeRegistration = ({ title }) => {
                             <Formik
                                 initialValues={{ ...INITIAL_FORM_STATE }}
                                 validationSchema={FORM_VALIDATION}
-                                onSubmit={async (values) => {
-                                    console.log('My data:', values)
-                                    return new Promise(res => setTimeout(res, 2500));
-                                }}
+                                onSubmit={handleSubmit}
                             >
                                 {({ values, errors, isSubmitting }) => (
                                     <Form autoComplete="off">

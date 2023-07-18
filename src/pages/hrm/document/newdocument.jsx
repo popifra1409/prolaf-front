@@ -12,8 +12,9 @@ import Select from "../../../components/FormsUI/Select";
 import FileInput from "../../../components/FormsUI/FileInput";
 /*import { TextField, Select } from "@material-ui/core"; */
 import EmployeeAPI from "../../../services/hrm/EmployeeAPI";
+import DocumentAPI from "../../../services/hrm/DocumentAPI";
 
-const emptyInfoSup = { information: '', value: '' };
+
 const useStyles = makeStyles(theme => (
     {
         errorColor: {
@@ -37,11 +38,10 @@ const NewDocument = ({ title }) => {
         setLoading(true);
           EmployeeAPI.getEmployees()
           .then((res) => {
-            const employees = res.data.map(employee => (
-              <option key={employee.employeeIdId} value={employee.employeeId}>
-                {employee.firstname}
-              </option>
-            ));
+            const employees = res.data.map((employee) => (
+                {value: employee.employeeId,
+                 label: employee.firstname}
+            )); 
             setEmployee(employees);
             setLoading(false);
           })
@@ -73,6 +73,12 @@ const NewDocument = ({ title }) => {
         
     })
 
+    const handleSubmit = async (values, employeeid) => {
+        employeeid = values.employee
+        await DocumentAPI.addDocument(values, employeeid).then((response)=> {
+            console.log("Data" + response.data);
+        })
+    };
 
     return (
         <div className="new">
@@ -88,10 +94,7 @@ const NewDocument = ({ title }) => {
                             <Formik
                                 initialValues={{ ...INITIAL_FORM_STATE }}
                                 validationSchema={FORM_VALIDATION}
-                                onSubmit={async (values) => {
-                                    console.log('My data:', values)
-                                    return new Promise(res => setTimeout(res, 2500));
-                                }}
+                                onSubmit={handleSubmit}
                             >
                                 {({ values, errors, isSubmitting }) => (
                                     <Form autoComplete="off">
@@ -105,7 +108,6 @@ const NewDocument = ({ title }) => {
                                                 <Select 
                                                     name="employee" 
                                                     label="Employee" 
-                                                    value={values.employee} 
                                                     options={employees} />
                                             </Grid>
                                             <Grid item xs={6}>
@@ -119,8 +121,7 @@ const NewDocument = ({ title }) => {
                                                 <TextField  
                                                     type="file"
                                                     name="cniupload"
-                                                    value={values.cniupload} 
-                                                    label="ID Card" 
+                                                    //value={values.cniupload}  
                                                     accept="image/*" />
                                             </Grid>
                                             <Grid item xs={6} className={classes.strech}>
@@ -132,9 +133,9 @@ const NewDocument = ({ title }) => {
                                             </Grid>  
                                             
                                             <Grid item xs={6} className={classes.strech}>
-                                            <Field
+                                            <TextField
+                                                type="file"
                                                 name="diplomaupload"
-                                                component={FileInput}
                                                 label="Diploma"
                                                 accept="image/*"
                                             />  
@@ -143,7 +144,7 @@ const NewDocument = ({ title }) => {
                                                 <TextField 
                                                     type="file" 
                                                     name="mariagecertificate" 
-                                                    value={values.mariagecertificate} 
+                                                    //value={values.mariagecertificate} 
                                                     accept="image/*" />
                                             </Grid>
                                             

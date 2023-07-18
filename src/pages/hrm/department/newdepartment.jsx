@@ -38,7 +38,7 @@ const NewDepartment = ({ title }) => {
              const departments = res.data.map((department) => (
                 {value: department.departmentId,
                  label: department.dept_name}
-            )); 
+            ));  
             setDepartment(departments);
             setLoading(false);
           })
@@ -150,3 +150,4 @@ const NewDepartment = ({ title }) => {
 };
 
 export default NewDepartment;
+

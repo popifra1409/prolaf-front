@@ -8,9 +8,23 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import { useState } from "react";
+import PopupBox from '../../pages/notification/notification';
+//import { departmentColumns } from "../../../pages/hrm/department/departmentTableSource";
 
 const Navbar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  
+    const [showPopup, setShowPopup] = useState(false);
+  
+    const openPopup = () => {
+    setShowPopup(true);
+  };
+  
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+  
 
   return (
     <div className="navbar">
@@ -34,9 +48,11 @@ const Navbar = () => {
             <FullscreenExitOutlinedIcon className="icon" />
           </div>
           <div className="item">
-            <NotificationsNoneOutlinedIcon className="icon" />
+            <NotificationsNoneOutlinedIcon onClick={openPopup} className="icon" /> 
+          {showPopup && <PopupBox message="Hello, World!" onClose={closePopup} />}
             <div className="counter">1</div>
           </div>
+
           <div className="item">
             <ChatBubbleOutlineOutlinedIcon className="icon" />
             <div className="counter">2</div>

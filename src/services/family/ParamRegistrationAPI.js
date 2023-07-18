@@ -14,9 +14,10 @@ class ParamRegistrationAPI {
     };
 
     //create a paramRegistration
-    addParamRegistration = async(paramRegistration) =>{
-        return await axios.post(ParamRegistration_API_BASE_URL + "save",  paramRegistration);
+    addParamRegistration = async(paramRegistration,nameid) =>{
+        return await axios.post(ParamRegistration_API_BASE_URL + nameid + "/create/", paramRegistration );
     };
+
 }
 
 export default new ParamRegistrationAPI()

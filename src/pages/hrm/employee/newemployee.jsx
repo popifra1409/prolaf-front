@@ -4,20 +4,18 @@ import Sidebar from '../../../components/sidebar/Sidebar';
 import Navbar from '../../../components/navbar/Navbar';
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Grid, Button, makeStyles, Typography } from '@material-ui/core';
-import { Form, Formik, Field, FieldArray } from 'formik';
+import { Form, Formik} from 'formik';
 import { CircularProgress } from "@mui/material";
 import * as Yup from "yup";
 import DateTimePicker from "../../../components/FormsUI/DateTimePicker";
-import moment from "moment";
 import TextField from "../../../components/FormsUI/Textfield";
 import { Checkbox } from "@material-ui/core";
 import Select from "../../../components/FormsUI/Select";
-import Radio from "../../../components/FormsUI/RadioButton";
 import DepartmentAPI from "../../../services/hrm/DepartmentAPI";
 import EmployeeAPI from "../../../services/hrm/EmployeeAPI";
 
 
-const emptyInfoSup = { information: '', valeur: '' };
+
 const useStyles = makeStyles(theme => (
     {
         errorColor: {
@@ -43,9 +41,8 @@ const NewEmployee = ({ title }) => {
         DepartmentAPI.getDepartments()
           .then((res) => {
             const departments = res.data.map(department => (
-              <option key={department.departmentId} value={department.departmentId}>
-                {department.dept_name}
-              </option>
+                {value: department.departmentId,
+                    label: department.dept_name}
             ));
             setDepartment(departments);
             setLoading(false);
@@ -53,9 +50,8 @@ const NewEmployee = ({ title }) => {
           EmployeeAPI.getEmployees()
           .then((res) => {
             const employees = res.data.map(employee => (
-              <option key={employee.employeeIdId} value={employee.employeeId}>
-                {employee.firstname}
-              </option>
+                {value: employee.employeeId,
+                    label: employee.firstname}
             ));
             setEmployee(employees);
             setLoading(false);
@@ -97,30 +93,44 @@ const NewEmployee = ({ title }) => {
 
     //options gender
     const genre = [
-        { value: '0', label: 'MALE' },
-        { value: '1', label: 'FEMALE' },
-        { value: '2', label: 'NONE PRECISE' },
+        { value: 'Male', label: 'MALE' },
+        { value: 'Female', label: 'FEMALE' },
+        { value: 'Non precise', label: 'NONE PRECISE' },
     ];
     const employeechoice = [
-        { value: 'supervisor', label: 'SUPERVISOR' },
-        { value: 'manager', label: 'MANAGER' },
-        { value: 'accountant', label: 'ACCOUNTANT' },
-        { value: 'worker', label: 'WORKER' }
+        { value: 'Supervisor', label: 'SUPERVISOR' },
+        { value: 'Manager', label: 'MANAGER' },
+        { value: 'Accountant', label: 'ACCOUNTANT' },
+        { value: 'Worker', label: 'WORKER' }
         
     ];
+    const statuschoice = [
+        {value: 'Single', label: 'SINGLE'},
+        {value: 'Married', label: 'MARRIED'},
+        {value: 'Divorce', label: 'DIVORCE'},
+        {value: 'Widower', label: 'WIDOWER'},
+        {value: 'Partner', label: 'PARTNER'}
+    ]
 
-    const FORM_VALIDATION = Yup.object().shape({
-        firstname: Yup.string().required("Enter the Name").min(3, 'It should contain at least 3 letters'),
-        phone: Yup.number().integer().typeError('Invalid Phone number').required('Enter Phone Number').min(9, 'It should contain 9 digits'),
+        const FORM_VALIDATION = Yup.object().shape({
+        firstname: Yup.string().required("Enter the Name").min(3, "It should contain at least 3 letters"),
+        phone: Yup.number().integer().typeError("Invalid Phone numbe").required('Enter Phone Number').min(9, 'It should contain 9 digits'),
         department: Yup.string().required("Select the department"),
         gender: Yup.string().required("Select the gender"),
         function: Yup.string().required("Enter the function"),
-        resourcecontact: Yup.string().required("Enter the resource contact"),
+        resourcecontact: Yup.number().required("Enter the resource contact"),
         birthdate: Yup.date().required("Enter the birth date"),
         address: Yup.string().required("Enter the address"),
-        email: Yup.string().email("Invalid E-mail"),
+        email: Yup.string().email("Invalid E-mail")
     })
 
+    const handleSubmit = async (values, supid, departmentid) => {
+        supid = values.supervisor
+        departmentid = values.department
+        await EmployeeAPI.addEmployee(values, supid, departmentid).then((response)=> {
+            console.log("Data" + response.data);
+        })
+    };
     
     return (
         <div className="new">
@@ -135,11 +145,8 @@ const NewEmployee = ({ title }) => {
                         <CardContent>
                             <Formik
                                 initialValues={{ ...INITIAL_FORM_STATE }}
-                                validationSchema={FORM_VALIDATION}
-                                onSubmit={async (values) => {
-                                    console.log('My data:', values)
-                                    return new Promise(res => setTimeout(res, 2500));
-                                }}
+                                //validationSchema={FORM_VALIDATION}
+                                onSubmit={handleSubmit}
                             >
                                 {({ values, errors, isSubmitting }) => (
                                     <Form autoComplete="off">
@@ -153,15 +160,13 @@ const NewEmployee = ({ title }) => {
                                                 <Select 
                                                     name="department" 
                                                     label="Department Parent"
-                                                    value={values.department} 
                                                     options={departments}
                                                 />
                                             </Grid>
                                             <Grid item xs={4} className={classes.strech}>
                                                 <Select 
                                                     name="supervisor" 
-                                                    label="Supervisor" 
-                                                    value={values.supervisor} 
+                                                    label="Supervisor"  
                                                     options={employees} />
                                             </Grid>
                                             <Grid item xs={4} className={classes.strech}>
@@ -193,13 +198,16 @@ const NewEmployee = ({ title }) => {
                                                 />
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <Radio label="Gender" name="gender" value={values.gender} options={genre} />
+                                                <Select 
+                                                    label="Gender" 
+                                                    name="gender"  
+                                                    options={genre} />
                                             </Grid>  
                                             <Grid item xs={4} className={classes.strech}>
-                                                <TextField
+                                                <Select
                                                     name="status"             
                                                     label="Status"
-                                                    value={values.status} 
+                                                    options={statuschoice} 
                                                 />
                                             </Grid>
                                             <Grid item xs={4} className={classes.strech}>
@@ -225,7 +233,8 @@ const NewEmployee = ({ title }) => {
                                             </Grid>           
                                             <Grid item xs={4} className={classes.strech}>
                                                 <TextField
-                                                    name="seniority"             
+                                                    name="seniority"
+                                                    type="number"             
                                                     label="Seniority"
                                                     value={values.seniority} 
                                                 />
@@ -241,7 +250,6 @@ const NewEmployee = ({ title }) => {
                                                 <Select
                                                     name="typeofemployee"             
                                                     label="Type Of Employee"
-                                                    value={values.typeofemployee} 
                                                     options={employeechoice}
                                                 />
                                             </Grid> 
@@ -252,10 +260,10 @@ const NewEmployee = ({ title }) => {
                                                 </Typography>
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <TextField name="phone" label="Phone Number" value={values.phone}  />
+                                                <TextField name="phone" type="number" label="Phone Number" value={values.phone}  />
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <TextField name="whatsappnumber" label="Whatsapp Number" value={values.whatsappnumber}  />
+                                                <TextField name="whatsappnumber" type="number" label="Whatsapp Number" value={values.whatsappnumber}  />
                                             </Grid>
                                             <Grid item xs={4}>
                                                 <TextField name="facebooklink" label="Facebook Link" value={values.facebooklink}  />
@@ -264,7 +272,7 @@ const NewEmployee = ({ title }) => {
                                                 <TextField name="resourcename" label="Resource Name" value={values.resourcename}  />
                                             </Grid>
                                             <Grid item xs={4}>
-                                                <TextField name="resourcecontact" label="Resource Contact" value={values.resourcecontact}  />
+                                                <TextField name="resourcecontact" type="number" label="Resource Contact" value={values.resourcecontact}  />
                                             </Grid>
                                             <Grid item xs={4}>
                                                 <TextField name="adresse" label="Adresse" value={values.adresse}  />
